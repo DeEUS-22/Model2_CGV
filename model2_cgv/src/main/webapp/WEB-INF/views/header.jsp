@@ -22,23 +22,23 @@
 			<a href="http://localhost:9000/model2_cgv/preparing.do" target="_parent" >
 				<img src="http://localhost:9000/model2_cgv/resources/images/hcard.png" class="hcard">
 			</a>
-			<a href="http://localhost:9000/model2_cgv/login/login.do" target="_parent" >
+			<a href="http://localhost:9000/model2_cgv/login.do" target="_parent" >
 				<img src="http://localhost:9000/model2_cgv/resources/images/loginPassword.png">
 				<span>로그인</span>
 			</a>
-			<a href="http://localhost:9000/model2_cgv/join/join.do" target="_parent" >
+			<a href="http://localhost:9000/model2_cgv/join.do" target="_parent" >
 				<img src="http://localhost:9000/model2_cgv/resources/images/loginJoin.png">
 				<span>회원가입</span>
 			</a>
-			<a href="http://localhost:9000/model2_cgv/mycgv/mycgv.do" target="_parent">
+			<a href="http://localhost:9000/model2_cgv/mycgv.do" target="_parent">
 				<img src="http://localhost:9000/model2_cgv/resources/images/loginMember.png">
 				<span>MY CGV</span>
 			</a>
-			<a href="http://localhost:9000/model2_cgv/board/board_list.do" target="_parent" >
+			<a href="http://localhost:9000/model2_cgv/board_list.do" target="_parent" >
 				<img src="http://localhost:9000/model2_cgv/resources/images/loginCustomer.png">
 				<span>게시판</span>
 			</a>
-			<a href="http://localhost:9000/model2_cgv/notice/notice_list.do" target="_parent" >
+			<a href="http://localhost:9000/model2_cgv/notice_list.do" target="_parent" >
 				<img src="http://localhost:9000/model2_cgv/resources/images/loginCustomer.png">
 				<span>공지사항</span>
 			</a>				
