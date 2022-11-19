@@ -264,3 +264,156 @@
  	h3 {
  		margin-left : 20px;
  	}
+ 	
+ 	/********************
+		Login css
+	*********************/
+	
+	div.content > h1 {
+ 		/*border:1px solid blue;*/
+ 		margin-left:100px;
+ 	}
+ 	form[name='loginForm'] { 		 
+		width:68%;	
+		margin:0 auto;
+		background-color:#f2f2f2;
+		/* border:1px solid red; */
+		border-radius:5px;
+		padding:30px 0px 30px 0px;
+	}
+	form[name='loginForm'] ul, form[name='loginForm'] li {
+		margin:0; padding:0; 
+		list-style-type:none;
+		/* border:1px solid blue; */
+		clear:left;
+	}
+	form[name='loginForm'] li { margin-bottom:5px;}
+	form[name='loginForm'] label {
+		width:110px;
+		display:block;
+		float:left;
+		color:#000;
+		text-align:center;
+		background-color:powderblue;
+		margin-right:10px;
+		margin-left:45px;
+		padding:7px 5px;
+		border:1px solid powderblue;
+		border-radius:5px;
+		font-size:12px;
+		font-weight:bold;
+	}
+	form[name='loginForm'] input {
+		border:1px solid #ccc;
+		border-radius:5px;
+		width:62%;
+		padding:7px 10px;
+		font-size:12px;
+	}
+	form[name='loginForm'] li:last-child {
+		padding-top:15px;
+		text-align:center;
+	}
+	form[name='loginForm'] button {
+		font-size:12px;
+		width:80px;
+		padding:5px 3px;
+		background-color:coral;
+		color:#fff;
+		border:1px solid coral;
+		margin-right:5px;
+	}
+	
+	/********************
+		Join css
+	*********************/
+	
+	form[name='joinForm'] { 
+	/* 	border:1px solid red;  */
+ 		width:68%;
+ 		margin:0 auto;
+ 		background-color:#f2f2f2;
+ 		border-radius:5px;
+		padding:30px 0px 30px 0px;
+ 	}
+	form[name='joinForm'] ul,form[name='joinForm'] li {
+		/* border:1px solid red; */
+		list-style-type:none;
+		margin:0; padding:0;
+		clear:left;
+	}
+	form[name='joinForm'] li {padding:5px 0;}
+	form[name='joinForm'] label {
+		border:1px solid powderblue; 
+		border-radius:5px;
+		display:block;
+		width:120px;
+		background-color:powderblue;
+		float:left;
+		font-size:12px; color:#000;
+		padding:8px 0px; 
+		text-indent:20px;
+		margin-right:10px;
+		margin-left:25px;
+		font-weight:bold;
+	}
+	form[name='joinForm'] input[name='id'],
+	form[name='joinForm'] input[name='pass'],
+	form[name='joinForm'] input[name='cpass'], 
+	form[name='joinForm'] input[name='name'],
+	form[name='joinForm'] input[name='addr1'],
+	form[name='joinForm'] input[name='addr2'] {
+		border:1px solid #ccc;
+		border-radius:5px;
+		width:53%;
+		padding:8px 10px;
+		font-size:12px;
+	}
+	form[name='joinForm'] li:first-child button, 
+	form[name='joinForm'] li:nth-child(7) button {
+		border:1px solid #ccc;
+		border-radius:5px;
+		background-color:#ccc;
+		color:#000;
+	}
+	form[name='joinForm']  li:nth-child(3) span {
+		font-size:11px;
+		display:inline-block;
+		/* padding-left:160px; */
+	}
+	form[name='joinForm'] li:nth-child(6) input, 
+	form[name='joinForm'] select, 
+	form[name='joinForm'] li:nth-child(9) input {
+		border:1px solid #ccc;
+		border-radius:5px;
+		width:20%;
+		padding:8px 12px;
+		font-size:12px;
+	}
+	form[name='joinForm'] li:nth-child(6) input[name='email1'],
+	form[name='joinForm'] li:nth-child(6) input[name='email2'] {		
+		margin-right:5px;
+	}
+	form[name='joinForm'] li:nth-child(9) select { 
+		width:11%;
+		padding:6px 10px; 
+		margin-left:10px;
+	}
+	form[name='joinForm'] li:nth-child(9) input { width:8%; }
+	form[name='joinForm'] textarea {
+		border:1px solid #ccc;
+		border-radius:5px;
+		width:73%;
+		height:100px;
+	}
+	form[name='joinForm'] li:last-child {
+		text-align:center;
+		padding:15px 0;
+	}
+	form[name='joinForm'] li:nth-child(9) div {
+		/* border:1px solid blue; */
+		display:inline-block;
+		width:30%;
+	}	
+	form[name='joinForm'] span,
+	form[name='joinForm']  select { font-size:12px; }

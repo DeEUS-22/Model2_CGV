@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>login</title>
+<link rel="stylesheet"  href="http://localhost:9000/model2_cgv/resources/css/cgv.css">
 <script src="http://localhost:9000/model2_cgv/resources/js/jquery-3.6.0.min.js"></script>
 <script src="http://localhost:9000/model2_cgv/resources/js/cgv.js"></script>
 </head>
