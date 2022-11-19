@@ -415,5 +415,107 @@
 		display:inline-block;
 		width:30%;
 	}	
-	form[name='joinForm'] span,
-	form[name='joinForm']  select { font-size:12px; }
+	form[name='joinForm'] span,	form[name='joinForm']  select { 
+		font-size:12px; 
+	}
+	
+	/********************
+		board css
+	*********************/
+	
+	table.board, form[name='boardWriteForm'],
+	table.boardContent {
+ 		/* border:1px solid red; */
+ 		width:70%; margin:0 auto; 	
+ 		font-size:13px;	
+ 	}
+ 	table.board , table.board th, table.board td,
+ 	table.boardContent, table.boardContent th, 
+ 	table.boardContent td {
+ 		border:1px solid #ccc;
+ 		border-collapse:collapse;
+ 	}
+ 	table.board th, table.boardContent th {
+ 		background-color:powderblue;
+ 	}
+ 	table.board th, table.board td,
+ 	table.boardContent th, table.boardContent td {
+ 		padding:10px 0;
+ 	}
+ 	table.board td, table.boardContent { 
+ 		text-align:center; 
+ 	}
+ 	table.board tr:first-child td { 
+ 		border:1px solid #fff;
+ 		border-bottom:1px solid #ccc;
+ 		text-align:right; 
+ 	}
+ 	table.board tr:first-child td button{ 
+ 		/* border:1px solid blue; */
+ 		background-color:#ccc;
+ 		border-color:#ccc;
+ 		border-radius:5px; 		
+ 	}
+ 	table.board tr:last-child td,
+ 	table.boardContent tr:last-child td { 
+ 		border:1px solid #fff;
+ 		border-top:1px solid #ccc;
+ 		padding-top:20px;
+ 	}
+ 	table.board  td a { 
+ 		text-decoration:none;
+ 		color:#000;
+ 	}
+ 	table.board  td a:hover { 
+ 		text-decoration:underline;
+ 	}
+ 	
+ 	form[name='boardWriteForm'] ul {
+ 		border:1px solid #e5e5e5; 
+ 		list-style-type:none;
+ 		margin:0; padding:20px;
+ 	}
+ 	form[name='boardWriteForm'] ul li { 
+ 		clear:left;
+ 		padding:5px 0px; 
+ 	}
+ 	form[name='boardWriteForm'] ul label {
+ 		background-color:powderblue;
+ 		display:block;
+ 		float:left;
+ 		width:120px;
+ 		padding:8px 0px;
+ 		font-size:12px; color:#000;
+ 		text-indent:25px;
+ 		margin-right:10px;
+ 		margin-left:50px;
+		font-weight:bold;
+		border: 1px solid powderblue;
+		border-radius:5px;
+ 	} 
+ 	
+ 	form[name='boardWriteForm'] input {
+ 		border:1px solid #ccc;
+		border-radius:5px;
+		width:56%;
+		padding:8px 10px;
+		font-size:12px;
+ 	}
+ 	form[name='boardWriteForm'] textarea {
+ 		border:1px solid #ccc;
+		border-radius:5px;
+		width:56%;
+		padding:8px 10px;
+		height:100px;
+ 	}
+ 	form[name='boardWriteForm'] li:last-child {
+ 		text-align:center;
+ 		padding-top:20px;
+ 	}
+	
+	table.boardContent tr:nth-child(2) td,
+ 	table.boardContent tr:nth-child(3) td {
+ 		/* border:1px solid blue; */
+ 		text-align:left;
+ 		text-indent:10px;
+ 	}
