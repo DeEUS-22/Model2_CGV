@@ -14,4 +14,36 @@ public class MainController {
 	public String header() {
 		return "header";
 	}
+	
+	/**
+	 * footer.do
+	 */
+	@RequestMapping(value="/footer.do", method=RequestMethod.GET)
+	public String footer() {
+		return "footer";
+	}
+	
+	/**
+	 * index.do
+	 */
+	@RequestMapping(value="/index.do", method=RequestMethod.GET)
+	public String index() {
+		return "index";
+	}
+	
+	/**
+	 * preparing.do
+	 */
+	@RequestMapping(value="/preparing.do", method=RequestMethod.GET)
+	public String preparing() {
+		return "preparing";
+	}
+	
+	/**
+	 * errorPage.do
+	 */
+	@RequestMapping(value="/errorPage.do", method=RequestMethod.GET)
+	public String errorPage() {
+		return "errorPage";
+	}
 }

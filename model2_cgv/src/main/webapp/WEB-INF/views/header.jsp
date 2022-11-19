@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>header</title>
+<link rel="stylesheet"  href="http://localhost:9000/model2_cgv/resources/css/cgv.css">
 </head>
 <body>
 <!---------------------------------------------->
@@ -13,31 +14,31 @@
 <header>
 	<div class="header_contents1">
 		<div>
-			<a href="http://localhost:9000/model2_cgv/index.jsp" target="_parent">
+			<a href="http://localhost:9000/model2_cgv/index.do" target="_parent">
 				<img src="http://localhost:9000/model2_cgv/resources/images/logoRed.png" width="150" height="70"></a>
 			<span>CULTURFLEX</span>
 		</div>
 		<div>
-			<a href="http://localhost:9000/model2_cgv/preparing.jsp" target="_parent" >
+			<a href="http://localhost:9000/model2_cgv/preparing.do" target="_parent" >
 				<img src="http://localhost:9000/model2_cgv/resources/images/hcard.png" class="hcard">
 			</a>
-			<a href="http://localhost:9000/model2_cgv/login/login.jsp" target="_parent" >
+			<a href="http://localhost:9000/model2_cgv/login/login.do" target="_parent" >
 				<img src="http://localhost:9000/model2_cgv/resources/images/loginPassword.png">
 				<span>로그인</span>
 			</a>
-			<a href="http://localhost:9000/model2_cgv/join/join.jsp" target="_parent" >
+			<a href="http://localhost:9000/model2_cgv/join/join.do" target="_parent" >
 				<img src="http://localhost:9000/model2_cgv/resources/images/loginJoin.png">
 				<span>회원가입</span>
 			</a>
-			<a href="http://localhost:9000/model2_cgv/mycgv/mycgv.jsp" target="_parent">
+			<a href="http://localhost:9000/model2_cgv/mycgv/mycgv.do" target="_parent">
 				<img src="http://localhost:9000/model2_cgv/resources/images/loginMember.png">
 				<span>MY CGV</span>
 			</a>
-			<a href="http://localhost:9000/model2_cgv/board/board_list.jsp" target="_parent" >
+			<a href="http://localhost:9000/model2_cgv/board/board_list.do" target="_parent" >
 				<img src="http://localhost:9000/model2_cgv/resources/images/loginCustomer.png">
 				<span>게시판</span>
 			</a>
-			<a href="http://localhost:9000/model2_cgv/notice/notice_list.jsp" target="_parent" >
+			<a href="http://localhost:9000/model2_cgv/notice/notice_list.do" target="_parent" >
 				<img src="http://localhost:9000/model2_cgv/resources/images/loginCustomer.png">
 				<span>공지사항</span>
 			</a>				
