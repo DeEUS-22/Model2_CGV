@@ -423,8 +423,9 @@
 		board css
 	*********************/
 	
-	table.board, form[name='boardWriteForm'],
-	table.boardContent {
+	table.board, form[name='boardWriteForm'], 
+ 	table.boardContent, form[name='boardUpdateForm'],
+ 	form[name='boardDeleteForm'] {
  		/* border:1px solid red; */
  		width:70%; margin:0 auto; 	
  		font-size:13px;	
@@ -442,9 +443,7 @@
  	table.boardContent th, table.boardContent td {
  		padding:10px 0;
  	}
- 	table.board td, table.boardContent { 
- 		text-align:center; 
- 	}
+ 	table.board td, table.boardContent { text-align:center; }
  	table.board tr:first-child td { 
  		border:1px solid #fff;
  		border-bottom:1px solid #ccc;
@@ -456,7 +455,7 @@
  		border-color:#ccc;
  		border-radius:5px; 		
  	}
- 	table.board tr:last-child td,
+ 	table.board tr:last-child td, 
  	table.boardContent tr:last-child td { 
  		border:1px solid #fff;
  		border-top:1px solid #ccc;
@@ -470,16 +469,21 @@
  		text-decoration:underline;
  	}
  	
- 	form[name='boardWriteForm'] ul {
+ 	form[name='boardWriteForm'] ul,
+ 	form[name='boardUpdateForm'] ul,
+ 	form[name='boardDeleteForm'] ul {
  		border:1px solid #e5e5e5; 
  		list-style-type:none;
  		margin:0; padding:20px;
  	}
- 	form[name='boardWriteForm'] ul li { 
+ 	form[name='boardWriteForm'] ul li,
+ 	form[name='boardUpdateForm'] ul li,
+ 	form[name='boardDeleteForm'] ul li { 
  		clear:left;
  		padding:5px 0px; 
  	}
- 	form[name='boardWriteForm'] ul label {
+ 	form[name='boardWriteForm'] ul label,
+ 	form[name='boardUpdateForm'] ul label {
  		background-color:powderblue;
  		display:block;
  		float:left;
@@ -493,29 +497,58 @@
 		border: 1px solid powderblue;
 		border-radius:5px;
  	} 
- 	
- 	form[name='boardWriteForm'] input {
+ 	form[name='boardWriteForm'] input,
+ 	form[name='boardUpdateForm'] input {
  		border:1px solid #ccc;
 		border-radius:5px;
 		width:56%;
 		padding:8px 10px;
 		font-size:12px;
  	}
- 	form[name='boardWriteForm'] textarea {
+ 	form[name='boardWriteForm'] textarea,
+ 	form[name='boardUpdateForm'] textarea {
  		border:1px solid #ccc;
 		border-radius:5px;
 		width:56%;
 		padding:8px 10px;
 		height:100px;
  	}
- 	form[name='boardWriteForm'] li:last-child {
+ 	form[name='boardWriteForm'] li:last-child,
+ 	form[name='boardUpdateForm'] li:last-child,
+ 	form[name='boardDeleteForm'] li:last-child {
  		text-align:center;
  		padding-top:20px;
  	}
-	
-	table.boardContent tr:nth-child(2) td,
+ 	table.boardContent tr:nth-child(2) td,
  	table.boardContent tr:nth-child(3) td {
  		/* border:1px solid blue; */
  		text-align:left;
  		text-indent:10px;
  	}
+ 	form[name='boardDeleteForm'] li:first-child { 	
+ 		text-align:center;
+ 	}
+ 	form[name='boardDeleteForm'] li:first-child img{
+ 		width:50%;
+ 	}
+ 	form[name='boardDeleteForm'] li:nth-child(2) div {
+ 		text-align:center;
+ 		font-size:20px; 
+ 		font-family:'«‘√ ∑’πŸ≈¡';
+ 		font-weight:bold;
+ 		padding:10px 0;
+ 	}
+ 	
+ 	
+ 	/********************
+		πˆ∆∞ ∞¯≈Î css
+	*********************/
+	.btn_style {
+		font-size:12px;
+		width:100px;
+		padding:7px 8px;
+		background-color:coral;
+		color:#fff;
+		border:1px solid coral;
+		margin-right:5px;
+	}
