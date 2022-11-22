@@ -141,4 +141,48 @@ $(document).ready(function(){
 			boardWriteForm.submit();
 		}
 	}); //click-end
+	
+	/*********************
+		게시판 수정폼 유효성 체크
+	**********************/
+	$("#btnBoardUpdate").click(()=>{
+		if($("#btitle").val() == ""){
+			alert("제목을 입력해주세요");
+			$("#btitle").focus();
+			return false;
+		}else{
+			//서버전송
+			boardUpdateForm.submit();
+		}
+	});
+	
+	/*********************
+		공지사항 등록폼 유효성 체크
+	**********************/
+	$("#btnNoticeWrite").click(()=>{
+	
+		if($("#ntitle").val() == ""){
+			alert("제목을 입력해주세요");
+			$("#ntitle").focus();
+			return false;
+		}else{
+			//서버전송
+			boardWriteForm.submit();
+		}
+	});
+	
+	/*********************
+		공지사항 수정폼 유효성 체크
+	**********************/
+	$("#btnNoticeUpdate").click(()=>{
+		if($("#ntitle").val() == ""){
+			alert("제목을 입력해주세요");
+			$("#ntitle").focus();
+			return false;
+		}else{
+			//서버전송
+			boardUpdateForm.submit();
+		}
+	});
+	
 });
