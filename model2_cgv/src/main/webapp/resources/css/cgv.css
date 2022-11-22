@@ -581,3 +581,26 @@
  	div.content section.adminMain article a{
  		color:#fff;
  	}
+ 	
+ 	/***********************************
+ 		∏∂¿ÃCGV
+ 	***********************************/
+ 	div.content section.mycgv {
+ 		/* border:1px solid red;  */ 
+ 		width:50%; margin:0 auto; 	
+ 		display:flex;
+ 		justify-content:space-between;
+ 		padding-top:50px;
+ 	}
+ 	div.content section.mycgv article {
+ 		background-color:powderblue;
+ 		padding:40px  30px; 
+ 		text-align:center;
+ 		border:1px solid #f2f2f2;
+ 		border-radius:10px;
+ 		font-weight:bold;
+ 	}	
+ 	div.content section.mycgv article{
+ 		background-color:powderblue;
+ 		width:28%;
+ 	} 	
