@@ -62,5 +62,13 @@ public class AdminController {
 		return "/admin/admin_member/admin_member_list";
 	}
 	
+	/**
+	 * admin_member_content.do
+	 */
+	@RequestMapping(value="/admin_member_content.do", method=RequestMethod.GET)
+	public String admin_member_content() {
+		return "/admin/admin_member/admin_member_content";
+	}
+	
 	
 }
