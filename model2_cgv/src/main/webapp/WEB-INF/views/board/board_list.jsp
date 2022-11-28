@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,12 +33,15 @@
 			<th>등록날짜</th>
 			<th>조회수</th>
 		</tr>
+		
+		<c:forEach var="vo" items="${list}">
 		<tr>
-			<td>1</td>
-			<td><a href="board_content.do">영화게시판 이용안내</a></td>
-			<td>2022-11-19</td>
-			<td>17</td>
+			<td>${vo.rno}</td>
+			<td><a href="board_content.do?bid=${vo.bid}">${vo.btitle}</a></td>
+			<td>${vo.bdate}</td>
+			<td>${vo.bhits}</td>
 		</tr>
+		</c:forEach>
 		<tr>
 			<td colspan="4">1234</td>
 		</tr>

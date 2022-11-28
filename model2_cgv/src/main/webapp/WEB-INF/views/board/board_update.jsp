@@ -21,14 +21,15 @@
 <div class="content">
 	<h1>게시판-수정하기</h1>
 	<form name="boardUpdateForm" action="boardUpdateCheck.do" method="post">
+		<input type="hidden" name="bid"  value="${vo.bid}" >
 		<ul>
 			<li>
 				<label>제목</label>
-				<input type="text" name="btitle" id="btitle">
+				<input type="text" name="btitle" id="btitle" value="${vo.btitle }">
 			</li>
 			<li>
 				<label>내용</label>
-				<textarea name="bcontent"></textarea>
+				<textarea name="bcontent">${vo.bcontent }</textarea>
 			</li>
 			<li>
 				<label>파일첨부</label>
@@ -37,7 +38,7 @@
 			<li>
 				<button type="button" class="btn_style" id="btnBoardUpdate">수정완료</button>
 				<button type="reset" class="btn_style">다시쓰기</button>
-				<a href="board_content.do"><button type="button" class="btn_style">이전페이지</button></a>
+				<a href="board_content.do?bid=${vo.bid }"><button type="button" class="btn_style">이전페이지</button></a>
 				<a href="board_list.do"><button type="button" class="btn_style">리스트</button></a>
 			</li>
 		</ul>
