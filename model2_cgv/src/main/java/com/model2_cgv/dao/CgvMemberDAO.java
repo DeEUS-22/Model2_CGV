@@ -71,14 +71,19 @@ public class CgvMemberDAO extends DBConn{
 	/**
 	 * selectAll : 회원 전체 리스트
 	 */
-	public ArrayList<CgvMemberVO> selectAll(){
+	public ArrayList<CgvMemberVO> selectAll(int startCount, int endCount){
 		ArrayList<CgvMemberVO> list = new ArrayList<CgvMemberVO>();
-		String sql = "select rownum rno, id, name, pnumber, to_char(mdate,'yyyy-mm-dd') mdate " + 
+		String sql = " select rno, id, name, pnumber, mdate "
+				+ " from (select rownum rno, id, name, pnumber, to_char(mdate,'yyyy-mm-dd') mdate " + 
 				" from (select id, name, pnumber, mdate from cgv_member " + 
-				"            order by mdate desc)"; 
+				"            order by mdate desc)) "
+				+ " where rno between ? and ?"; 
 		
 		try {
 			getPreparedStatement(sql);
+			pstmt.setInt(1, startCount);
+			pstmt.setInt(2, endCount);
+			
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				CgvMemberVO vo = new CgvMemberVO();
@@ -132,6 +137,27 @@ public class CgvMemberDAO extends DBConn{
 		}
 		
 		return vo;
+	}
+	
+	/**
+	 * totalCount : 전체 로우수 출력
+	 */
+	public int totalCount() {
+		int result = 0;
+		String sql = "select count(*) from cgv_member";
+		
+		try {
+			getPreparedStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				result = rs.getInt(1);
+			}
+			//close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 	
 }//CgvMemberDAO-end

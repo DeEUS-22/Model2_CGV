@@ -29,7 +29,7 @@ $(document).ready(function(){
 								output += "</tr>"
 						}
 						output += "<tr>"
-						output += "<td colspan='4'>1234</td>"
+						output += "<td colspan='4'><div id='ampaginationsm'></div></td>"
 						output += "</tr>"
 						output += "</table>";
 						
@@ -37,6 +37,21 @@ $(document).ready(function(){
 						//3. 출력
 						$("table.board").remove();
 						$("h1").after(output); 		
+						
+						
+						//페이징 리스트 출력 함수 호출			
+						noticePager(dataset.dbCount,dataset.pageSize,dataset.rpage);
+						
+						
+						//페이징 번호 클릭 시 이벤트 처리
+						jQuery('#ampaginationsm').on('am.pagination.change',function(e){
+							//alert(e.page);
+							   jQuery('.showlabelsm').text('The selected page no: '+e.page);
+					           //$(location).attr('href', "http://localhost:9000/mycgv/notice/notice_list.jsp?rpage="+e.page);
+					           //함수를 호출하는 방식으로 수정
+					           initAjax(e.page);
+					    });
+														
 						
 						//제목에 대한 이벤트 처리
 						$(".bclass").click(function(){
@@ -49,6 +64,30 @@ $(document).ready(function(){
 				});//ajax		
 		
 		}//initAjax		
+		
+			
+		
+		//페이징 처리 출력
+		function noticePager(dbCount,pageSize,rpage){
+			//alert(dbCount+","+pageSize+","+rpage);
+			var pager = jQuery('#ampaginationsm').pagination({
+				
+			   	maxSize: 7,	    		// max page size
+			    totals: dbCount,	// total rows	
+			    page: 	rpage,		// initial page		
+			    pageSize: pageSize,	// max number items per page
+			
+			    // custom labels		
+			    lastText: '&raquo;&raquo;', 		
+			    firstText: '&laquo;&laquo;',		
+			    prevText: '&laquo;',		
+			    nextText: '&raquo;',
+					     
+			    btnSize:'sm'	// 'sm'  or 'lg'	 	
+			});
+		}	
+		
+		
 		
 		//제목 클릭 이벤트 - bclass에 대한 기능 구현
 		function noticeContent(nid){

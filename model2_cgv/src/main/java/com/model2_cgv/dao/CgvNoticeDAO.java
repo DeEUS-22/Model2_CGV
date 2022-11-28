@@ -30,14 +30,18 @@ public class CgvNoticeDAO extends DBConn{
 	/**
 	 * select : 전체 공지사항 리스트
 	 */
-	public ArrayList<CgvNoticeVO> select(){
+	public ArrayList<CgvNoticeVO> select(int startCount, int endCount){
 		ArrayList<CgvNoticeVO> list = new ArrayList<CgvNoticeVO>();
-		String sql = " select rownum rno, nid, ntitle, nhits,to_char(ndate,'yyyy-mm-dd') ndate " + 
+		String sql = "select rno, nid, ntitle, nhits, ndate "
+				+ " from (select rownum rno, nid, ntitle, nhits,to_char(ndate,'yyyy-mm-dd') ndate " + 
 				" from (select nid, ntitle, nhits,ndate from cgv_notice " + 
-				"            order by ndate desc)";
+				"            order by ndate desc)) "
+				+ " where rno between ? and ? ";
 		
 		try {
 			getPreparedStatement(sql);
+			pstmt.setInt(1, startCount);
+			pstmt.setInt(2, endCount);
 			
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -153,6 +157,27 @@ public class CgvNoticeDAO extends DBConn{
 			e.printStackTrace();
 		}
 		
+		
+		return result;
+	}
+	
+	/**
+	 * totalCount : 전체 로우수 출력
+	 */
+	public int totalCount() {
+		int result = 0;
+		String sql = "select count(*) from cgv_notice";
+		
+		try {
+			getPreparedStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				result = rs.getInt(1);
+			}
+			//close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		return result;
 	}

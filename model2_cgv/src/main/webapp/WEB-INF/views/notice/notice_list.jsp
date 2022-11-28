@@ -6,7 +6,9 @@
 <meta charset="UTF-8">
 <title>CGV</title>
 <link rel="stylesheet"  href="http://localhost:9000/model2_cgv/resources/css/cgv.css">
+<link rel="stylesheet"  href="http://localhost:9000/model2_cgv/resources/css/am-pagination.css">
 <script src="http://localhost:9000/model2_cgv/resources/js/jquery-3.6.0.min.js"></script>
+<script src="http://localhost:9000/model2_cgv/resources/js/am-pagination.js"></script>
 <script src="http://localhost:9000/model2_cgv/resources/js/cgv_notice.js"></script>
 </head>
 <body>

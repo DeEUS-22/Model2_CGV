@@ -32,15 +32,22 @@ public class CgvBoardDAO extends DBConn{
 	/**
 	 * select : 게시글 전체 리스트
 	 */
-	public ArrayList<CgvBoardVO> select(){
+	public ArrayList<CgvBoardVO> select(int startCount, int endCount){
 		ArrayList<CgvBoardVO> list = new ArrayList<CgvBoardVO>();
-		String sql = "select rownum rno, bid, btitle, bhits, to_char(bdate, 'yyyy-mm-dd') bdate " + 
+		String sql = "select rno, bid, btitle, bhits, bdate " +
+				 " from (select rownum rno, bid, btitle, bhits, to_char(bdate, 'yyyy-mm-dd') bdate " + 
 			" from (select bid, btitle, bhits, bdate from cgv_board " + 
-			"            order by bdate desc)";
+			"            order by bdate desc))" +
+			" where rno between  ? and ?"; 
 		
 		try {
 			getPreparedStatement(sql);
+			
+			pstmt.setInt(1, startCount); 
+			pstmt.setInt(2, endCount);
+			
 			rs = pstmt.executeQuery();
+			
 			while(rs.next()) {
 				CgvBoardVO vo = new CgvBoardVO();
 				vo.setRno(rs.getInt(1));
@@ -60,6 +67,7 @@ public class CgvBoardDAO extends DBConn{
 		
 		return list;
 	}
+	
 	
 	/**
 	 * select : 게시글 상세 보기
@@ -152,6 +160,27 @@ public class CgvBoardDAO extends DBConn{
 			
 			close();
 			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * totalCount : 전체 로우수 출력
+	 */
+	public int totalCount() {
+		int result = 0;
+		String sql = "select count(*) from cgv_board";
+		
+		try {
+			getPreparedStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				result = rs.getInt(1);
+			}
+			//close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

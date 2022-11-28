@@ -7,6 +7,37 @@
 <meta charset="UTF-8">
 <title>관리자 페이지/고객관리 - 고객 리스트</title>
 <link rel="stylesheet"  href="http://localhost:9000/model2_cgv/resources/css/cgv.css">
+<link rel="stylesheet"  href="http://localhost:9000/model2_cgv/resources/css/am-pagination.css">
+<script src="http://localhost:9000/model2_cgv/resources/js/jquery-3.6.0.min.js"></script>
+<script src="http://localhost:9000/model2_cgv/resources/js/am-pagination.js"></script>
+<script>
+$(document).ready(function(){
+	
+	//페이징 리스트 출력
+	var pager = jQuery('#ampaginationsm').pagination({
+	
+	    maxSize: 7,	    		// max page size
+	    totals: '${dbCount}',	// total rows	
+	    page: '${rpage}',		// initial page		
+	    pageSize: '${pageSize}',	// max number items per page
+	
+	    // custom labels		
+	    lastText: '&raquo;&raquo;', 		
+	    firstText: '&laquo;&laquo;',		
+	    prevText: '&laquo;',		
+	    nextText: '&raquo;',
+			     
+	    btnSize:'sm'	// 'sm'  or 'lg'		
+	});
+	
+	//페이징 번호 클릭 시 이벤트 처리
+	jQuery('#ampaginationsm').on('am.pagination.change',function(e){		
+		   jQuery('.showlabelsm').text('The selected page no: '+e.page);
+           $(location).attr('href', "http://localhost:9000/model2_cgv/admin_member_list.do?rpage="+e.page);         
+    });
+	
+});
+</script>
 </head>
 <body>
 <!-------------------->
@@ -37,7 +68,7 @@
 			</tr>			
 		</c:forEach>
 		<tr>
-			<td colspan="5">1234</td>
+			<td colspan="5"><div id="ampaginationsm"></div></td>
 		</tr>
 	</table>	
 </div>
