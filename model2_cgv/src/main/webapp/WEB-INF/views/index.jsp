@@ -6,6 +6,12 @@
 <meta charset="UTF-8">
 <title>Index</title>
 <link rel="stylesheet"  href="http://localhost:9000/model2_cgv/resources/css/cgv.css">
+<script>
+	let login_result = '${login_result}';
+	if(login_result == 'ok'){
+		alert("로그인에 성공하셨습니다.");
+	}
+</script>
 </head>
 <body>
 <!-------------------->
