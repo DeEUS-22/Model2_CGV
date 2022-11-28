@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,14 +33,16 @@
 			<th>등록날짜</th>
 			<th>조회수</th>
 		</tr>
+		<c:forEach var="vo"  items="${list}">
 		<tr>
-			<td>1</td>
-			<td><a href="admin_notice_content.do">11월 행사 안내</a></td>
-			<td>2022-11-22</td>
-			<td>17</td>
+			<td>${vo.rno }</td>
+			<td><a href="admin_notice_content.do?nid=${vo.nid }">${vo.ntitle }</a></td>
+			<td>${vo.ndate }</td>
+			<td>${vo.nhits }</td>
 		</tr>
+		</c:forEach>
 		<tr>
-			<td colspan="4">1234</div></td>
+			<td colspan="4">1234</td>
 		</tr>
 	</table>	
 </div>

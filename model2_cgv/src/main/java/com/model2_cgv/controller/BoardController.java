@@ -149,7 +149,7 @@ public class BoardController {
 		if(result == 1){
 			mv.setViewName("redirect:/board_list.do");
 		}else{
-			mv.setViewName("errorpage");
+			mv.setViewName("errorPage");
 		}
 		
 		return mv;

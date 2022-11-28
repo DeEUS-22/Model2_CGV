@@ -21,27 +21,27 @@
 	<table class="boardContent">	
 		<tr>				
 			<th>아이디</th>
-			<td>kth931017</td>
+			<td>${vo.id }</td>
 			<th>성명</th>
-			<td>김태형</td>
+			<td>${vo.name }</td>
 			<th>가입날짜</th>
-			<td>2022-11-22</td>
+			<td>${vo.mdate }</td>
 		</tr>		
 		<tr>				
 			<th>주소</th>
-			<td colspan="5">서울시 강남구</td>
+			<td colspan="5">${address }</td>
 		</tr>
 		<tr>				
 			<th>연락처</th>
-			<td colspan="5">010-5117-6504</td>
+			<td colspan="5">${vo.pnumber }</td>
 		</tr>
 		<tr>				
 			<th>취미</th>
-			<td colspan="5">축구</td>
+			<td colspan="5">${vo.hobbylist }</td>
 		</tr>
 		<tr>				
 			<th>자기소개</th>
-			<td colspan="5">안녕하세요</td>
+			<td colspan="5">${vo.intro }</td>
 		</tr>
 		<tr>
 			<td colspan="6">					

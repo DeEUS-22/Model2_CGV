@@ -21,24 +21,25 @@
 	<table class="boardContent">	
 		<tr>				
 			<th>등록일자</th>
-			<td>2022-11-22</td>
+			<td>${vo.ndate }</td>
 			<th>조회수</th>
-			<td>17</td>
+			<td>${vo.nhits }</td>
 		</tr>		
 		<tr>				
 			<th>제목</th>
-			<td colspan="3">11월 행사 안내</td>
+			<td colspan="3">${vo.ntitle }</td>
 		</tr>
 		<tr>				
 			<th>내용</th>
-			<td colspan="3">11월 행사 안내입니다.<br><br><br><br></td>
+			<td colspan="3">${vo.ncontent }<br><br><br><br></td>
 		</tr>
 		<tr>
 			<td colspan="4">
-				<a href="admin_notice_update.do"><button type="button" class="btn_style">수정하기</button></a>
-				<a href="admin_notice_delete.do"><button type="button" class="btn_style">삭제하기</button></a>
-				<a href="admin_notice_list.do"><button type="button" class="btn_style">리스트</button></a>
-				<a href="http://localhost:9000/model2_cgv/admin.do"><button type="button" class="btn_style">관리자홈</button></a>
+				<a href="admin_notice_update.do?nid=${vo.nid }"><button type="button" class="btn_style">수정하기</button></a>
+				<a href="admin_notice_delete.do?nid=${vo.nid }"><button type="button" class="btn_style">삭제하기</button></a>
+				<a href="admin_notice_list.do">
+					<button type="button" class="btn_style">리스트</button></a>
+				<a href="http://localhost:9000/mycgv/admin.do"><button type="button" class="btn_style">관리자홈</button></a>
 			</td>
 		</tr>			
 	</table>	

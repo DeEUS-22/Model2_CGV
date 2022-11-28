@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,15 +27,17 @@
 			<th>연락처</th>
 			<th>가입날짜</th>
 		</tr>
+		<c:forEach var="vo"  items="${list}">
+			<tr>
+				<td>${vo.rno }</td>
+				<td><a href="admin_member_content.do?id=${vo.id }">${vo.id }</a></td>
+				<td>${vo.name }</td>
+				<td>${vo.pnumber }</td>
+				<td>${vo.mdate }</td>
+			</tr>			
+		</c:forEach>
 		<tr>
-			<td>1</td>
-			<td><a href="admin_member_content.do">kth931017</td>
-			<td>김태형</td>
-			<td>010-5117-6504</td>
-			<td>2022-11-22</td>
-		</tr>
-		<tr>
-			<td colspan="5"><div id="ampaginationsm"></div></td>
+			<td colspan="5">1234</td>
 		</tr>
 	</table>	
 </div>
