@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.model2_cgv.dao.CgvMemberDAO;
 import com.model2_cgv.dao.CgvNoticeDAO;
 import com.model2_cgv.service.MemberServiceImpl;
+import com.model2_cgv.service.NoticeServiceImpl;
 import com.model2_cgv.vo.CgvMemberVO;
 import com.model2_cgv.vo.CgvNoticeVO;
 
@@ -23,6 +24,9 @@ public class AdminController {
 	
 	@Autowired
 	private MemberServiceImpl memberService;
+	
+	@Autowired
+	private NoticeServiceImpl noticeService;
 	
 	/**
 	 * admin.do
@@ -105,8 +109,8 @@ public class AdminController {
 		}
 		
 		//DB연동
-		CgvNoticeDAO dao = new CgvNoticeDAO();
-		int result = dao.insert(vo);
+		int result = noticeService.getWriteResult(vo);
+		
 		if(result == 1){			
 			if(!vo.getFile1().getOriginalFilename().equals("")) {
 				String path = request.getSession().getServletContext().getRealPath("/");
@@ -129,10 +133,10 @@ public class AdminController {
 	@RequestMapping(value="/admin_notice_content.do", method=RequestMethod.GET)
 	public ModelAndView admin_notice_content(String nid) {
 		ModelAndView mv = new ModelAndView();
-		CgvNoticeDAO dao = new CgvNoticeDAO();
-		CgvNoticeVO vo = dao.select(nid);
+		CgvNoticeVO vo = noticeService.getContent(nid);
+		
 		if(vo != null){
-			dao.updateHits(nid);
+			noticeService.getUpdateHits(nid);
 		}
 		
 		mv.addObject("vo", vo);
@@ -147,8 +151,7 @@ public class AdminController {
 	@RequestMapping(value="/admin_notice_update.do", method=RequestMethod.GET)
 	public ModelAndView admin_notice_update(String nid) {
 		ModelAndView mv = new ModelAndView();
-		CgvNoticeDAO dao = new CgvNoticeDAO();
-		CgvNoticeVO vo = dao.select(nid);
+		CgvNoticeVO vo = noticeService.getContent(nid);
 		
 		mv.addObject("vo", vo);
 		mv.setViewName("/admin/admin_notice/admin_notice_update");
@@ -172,8 +175,8 @@ public class AdminController {
 			vo.setNsfile(uuid+"_"+vo.getFile1().getOriginalFilename());
 		}
 		
-		CgvNoticeDAO dao = new CgvNoticeDAO();
-		int result = dao.update(vo);
+		int result = noticeService.getUpdate(vo);
+		
 		if(result == 1){
 			//새로운 파일을 upload 폴더에 저장한 후 기존의 파일은 삭제
 			if(!vo.getFile1().getOriginalFilename().equals("")) {  //새로운 파일을 선택한 경우
@@ -218,9 +221,8 @@ public class AdminController {
 	public ModelAndView admin_notice_delete_check(String nid, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		//DB연동
-		CgvNoticeDAO dao = new CgvNoticeDAO();
-		CgvNoticeVO vo = dao.select(nid);
-		int result = dao.delete(nid);
+		CgvNoticeVO vo = noticeService.getContent(nid);
+		int result = noticeService.getDelete(nid);
 	
 		if(result == 1){	
 			if(vo.getNsfile() != null) {

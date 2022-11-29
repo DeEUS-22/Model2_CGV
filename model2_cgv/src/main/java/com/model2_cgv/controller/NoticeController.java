@@ -2,6 +2,7 @@ package com.model2_cgv.controller;
 
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,10 +12,15 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.model2_cgv.dao.CgvNoticeDAO;
+import com.model2_cgv.service.NoticeServiceImpl;
 import com.model2_cgv.vo.CgvNoticeVO;
 
 @Controller
 public class NoticeController {
+	
+	@Autowired
+	private NoticeServiceImpl noticeService;
+	
 	/**
 	 * notice_list.do : 공지사항 전체 리스트 
 	 */
@@ -96,8 +102,8 @@ public class NoticeController {
 	 					, produces="text/plain;charset=UTF-8")
 	public String notice_content_json(String nid) {
 
-		CgvNoticeDAO dao = new CgvNoticeDAO();
-		CgvNoticeVO vo = dao.select(nid);
+		CgvNoticeVO vo = noticeService.getContent(nid);
+		
 		if(vo != null){
 			dao.updateHits(nid);
 		}
