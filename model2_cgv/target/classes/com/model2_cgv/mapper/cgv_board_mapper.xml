@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="mapper.board">
+	<!-- board insert -->
+	<insert id="insert" parameterType="com.mycgv.vo.CgvBoardVO">
+		insert into cgv_board 
+				 values('b_'||sequ_cgv_board.nextval, #{btitle}, #{bcontent}, #{bfile}, #{bsfile}, 0, sysdate)
+	</insert>
+	
+	<!-- board list -->
+	<select id="list" parameterType="map" resultType="com.mycgv.vo.CgvBoardVO">
+		select rno, bid, btitle, bhits, bdate 
+		from (select rownum rno, bid, btitle, bhits, to_char(bdate, 'yyyy-mm-dd') bdate 
+			 	from (select bid, btitle, bhits, bdate 
+			 			from cgv_board  
+			            order by bdate desc)
+			  )
+		where rno between  #{start} and #{end}	
+	</select>
+
+	<!-- board content -->
+	<select id="content" parameterType="java.lang.String" resultType="com.mycgv.vo.CgvBoardVO">
+		select bid, btitle, bcontent,bhits, bdate, bfile, bsfile
+		 from cgv_board  where bid=#{bid}
+	</select>
+	
+	<!-- board upatehits -->
+	<update id="updatehits" parameterType="java.lang.String">
+		update cgv_board set bhits = bhits+1  where bid=#{bid}
+	</update>
+	
+	<!-- board update -->
+	<update id="update" parameterType="com.mycgv.vo.CgvBoardVO">
+		update cgv_board set btitle=#{btitle}, bcontent=#{bcontent}, bfile=#{bfile}, bsfile=#{bsfile} 
+		 where bid=#{bid}
+	</update> 
+	
+	<!-- board delete -->
+	<delete id="delete" parameterType="java.lang.String">
+		delete from cgv_board where bid=#{bid}
+	</delete>
+	
+	<!-- board totalcount -->
+	<select id="totalcount" resultType="int">
+		select count(*) from cgv_board
+	</select>
+</mapper>
