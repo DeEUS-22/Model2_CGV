@@ -8,6 +8,28 @@
 <link rel="stylesheet"  href="http://localhost:9000/model2_cgv/resources/css/cgv.css">
 <script src="http://localhost:9000/model2_cgv/resources/js/jquery-3.6.0.min.js"></script>
 <script src="http://localhost:9000/model2_cgv/resources/js/cgv.js"></script>
+<style>
+	#upload_file {
+		/*border:1px solid red;*/
+		position:relative;
+		left:265px; top:-30px;
+		width:200px;  height:20px;
+		display:inline-block;	
+		background-color:white;	
+		font-size:12px;
+	}
+</style>
+<script>
+	$(document).ready(function(){
+		//새로운 파일선택하는 이벤트 
+		$("input[type=file]").change(function(){
+			if(window.FileReader){
+				let fname = $(this)[0].files[0].name;
+				$("#upload_file").text(fname);
+			}
+		});
+	});
+</script>
 </head>
 <body>
 <!-------------------->
@@ -20,8 +42,10 @@
 <!-------------------->
 <div class="content">
 	<h1>공지사항-수정하기</h1>
-	<form name="boardUpdateForm" action="adminUpdateNoticeCheck.do" method="post">
+	<form name="boardUpdateForm" action="adminUpdateNoticeCheck.do" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="nid" value="${vo.nid}">
+		<input type="hidden" name="nfile" value="${vo.nfile}">
+		<input type="hidden" name="nsfile" value="${vo.nsfile}">
 		<ul>
 			<li>
 				<label>제목</label>
@@ -34,6 +58,7 @@
 			<li>
 				<label>파일첨부</label>
 				<input type="file" name="file1">
+				<span id="upload_file">${vo.nfile}</span>
 			</li>
 			<li>
 				<button type="button" class="btn_style" id="btnNoticeUpdate">수정완료</button>

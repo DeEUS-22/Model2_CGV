@@ -109,6 +109,8 @@ public class NoticeController {
 		jobject.addProperty("ncontent", vo.getNcontent());
 		jobject.addProperty("nhits", vo.getNhits());
 		jobject.addProperty("ndate", vo.getNdate());
+		jobject.addProperty("nfile", vo.getNfile());
+		jobject.addProperty("nsfile", vo.getNsfile());
 
 		return gson.toJson(jobject); 
 		

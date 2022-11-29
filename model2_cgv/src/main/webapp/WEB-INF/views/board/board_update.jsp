@@ -44,6 +44,8 @@
 	<h1>게시판-수정하기</h1>
 	<form name="boardUpdateForm" action="boardUpdateCheck.do" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="bid"  value="${vo.bid}" >
+		<input type="hidden" name="bfile"  value="${vo.bfile}" >
+		<input type="hidden" name="bsfile"  value="${vo.bsfile}" >
 		<ul>
 			<li>
 				<label>제목</label>

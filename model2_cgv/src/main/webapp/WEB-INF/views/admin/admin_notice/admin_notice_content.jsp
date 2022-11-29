@@ -31,7 +31,9 @@
 		</tr>
 		<tr>				
 			<th>내용</th>
-			<td colspan="3">${vo.ncontent }<br><br><br><br></td>
+			<td colspan="3">${vo.ncontent }<br><br>
+				<img src="http://localhost:9000/model2_cgv/resources/upload/${vo.nsfile }" width="50%">
+			<br><br></td>
 		</tr>
 		<tr>
 			<td colspan="4">
@@ -39,7 +41,7 @@
 				<a href="admin_notice_delete.do?nid=${vo.nid }"><button type="button" class="btn_style">삭제하기</button></a>
 				<a href="admin_notice_list.do">
 					<button type="button" class="btn_style">리스트</button></a>
-				<a href="http://localhost:9000/mycgv/admin.do"><button type="button" class="btn_style">관리자홈</button></a>
+				<a href="http://localhost:9000/model2_cgv/admin.do"><button type="button" class="btn_style">관리자홈</button></a>
 			</td>
 		</tr>			
 	</table>	

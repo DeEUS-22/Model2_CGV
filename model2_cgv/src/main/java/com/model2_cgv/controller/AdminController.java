@@ -1,16 +1,18 @@
 package com.model2_cgv.controller;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.model2_cgv.dao.CgvBoardDAO;
 import com.model2_cgv.dao.CgvMemberDAO;
 import com.model2_cgv.dao.CgvNoticeDAO;
-import com.model2_cgv.vo.CgvBoardVO;
 import com.model2_cgv.vo.CgvMemberVO;
 import com.model2_cgv.vo.CgvNoticeVO;
 
@@ -82,27 +84,42 @@ public class AdminController {
 	 * admin_notice_write_check.do : 공지사항 글쓰기 처리
 	 */
 	@RequestMapping(value="/adminNoticeWriteCheck.do", method=RequestMethod.POST)
-	public ModelAndView admin_notice_write_check(CgvNoticeVO vo) {
+	public ModelAndView admin_notice_write_check(CgvNoticeVO vo, HttpServletRequest request ) throws Exception {
 		ModelAndView mv = new ModelAndView();
+		
+		if(vo.getFile1().getOriginalFilename().equals("")) {
+			vo.setNfile("");
+			vo.setNsfile("");
+		}else {
+			UUID uuid = UUID.randomUUID();
+		
+			vo.setNfile(vo.getFile1().getOriginalFilename());
+			vo.setNsfile(uuid+"_"+vo.getFile1().getOriginalFilename());
+		
+		}
+		
+		//DB연동
 		CgvNoticeDAO dao = new CgvNoticeDAO();
 		int result = dao.insert(vo);
 		if(result == 1){			
+			if(!vo.getFile1().getOriginalFilename().equals("")) {
+				String path = request.getSession().getServletContext().getRealPath("/");
+				path += "\\resources\\upload\\";
+		
+				File file = new File(path+vo.getNsfile());
+				vo.getFile1().transferTo(file);
+		}
 			mv.setViewName("redirect:/admin_notice_list.do");
 		}else{
-
 			mv.setViewName("errorPage");
-		}
+		}		
+		
 		return mv;
 	}
 	
 	/**
 	 * admin_notice_content.do
 	 */
-//	@RequestMapping(value="/admin_notice_content.do", method=RequestMethod.GET)
-//	public String admin_notice_content() {
-//		return "/admin/admin_notice/admin_notice_content";
-//	}
-	
 	@RequestMapping(value="/admin_notice_content.do", method=RequestMethod.GET)
 	public ModelAndView admin_notice_content(String nid) {
 		ModelAndView mv = new ModelAndView();
@@ -121,11 +138,6 @@ public class AdminController {
 	/**
 	 * admin_notice_update.do
 	 */
-//	@RequestMapping(value="/admin_notice_update.do", method=RequestMethod.GET)
-//	public String admin_notice_update() {
-//		return "/admin/admin_notice/admin_notice_update";
-//	}
-	
 	@RequestMapping(value="/admin_notice_update.do", method=RequestMethod.GET)
 	public ModelAndView admin_notice_update(String nid) {
 		ModelAndView mv = new ModelAndView();
@@ -142,15 +154,41 @@ public class AdminController {
 	 * adminNoticeUpdateCheck.do
 	 */
 	@RequestMapping(value="/adminUpdateNoticeCheck.do", method=RequestMethod.POST)
-	public ModelAndView adminNoticeUpdateCheck(CgvNoticeVO vo) {
+	public ModelAndView admin_notice_update_check(CgvNoticeVO vo, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView();
+		
+		String old_filename = vo.getNsfile();	//수정화면에서 hidden으로 넘어오는 기존 upload 폴더에 저장된 파일명
+		
+		if(!vo.getFile1().getOriginalFilename().equals("")) {  //새로운 파일을 선택한 경우
+			UUID uuid = UUID.randomUUID();
+		
+			vo.setNfile(vo.getFile1().getOriginalFilename());
+			vo.setNsfile(uuid+"_"+vo.getFile1().getOriginalFilename());
+		}
+		
 		CgvNoticeDAO dao = new CgvNoticeDAO();
 		int result = dao.update(vo);
 		if(result == 1){
+			//새로운 파일을 upload 폴더에 저장한 후 기존의 파일은 삭제
+			if(!vo.getFile1().getOriginalFilename().equals("")) {  //새로운 파일을 선택한 경우
+				String path = request.getSession().getServletContext().getRealPath("/");
+				path += "\\resources\\upload\\";
+		
+				File new_file = new File(path+vo.getNsfile());
+				vo.getFile1().transferTo(new_file);
+		
+				//기존 파일 삭제
+				File old_file = new File(path+old_filename);
+				if(old_file.exists()) {
+					old_file.delete();
+				}				
+			}
+		
 			mv.setViewName("redirect:/admin_notice_list.do");
 		}else{
+		
 			mv.setViewName("errorPage");
-		}
+		}		
 		
 		return mv;
 	}
@@ -158,11 +196,6 @@ public class AdminController {
 	/**
 	 * admin_notice_delete.do
 	 */
-//	@RequestMapping(value="/admin_notice_delete.do", method=RequestMethod.GET)
-//	public String admin_notice_delete() {
-//		return "/admin/admin_notice/admin_notice_delete";
-//	}
-	
 	@RequestMapping(value="/admin_notice_delete.do", method=RequestMethod.GET)
 	public ModelAndView admin_notice_delete(String nid) {
 		ModelAndView mv = new ModelAndView();
@@ -176,17 +209,29 @@ public class AdminController {
 	 * adminDeleteNoticeCheck.do : 게시판 삭제 처리
 	 */
 	@RequestMapping(value="/adminDeleteNoticeCheck.do", method=RequestMethod.POST)
-	public ModelAndView adminDeleteNoticeCheck(String nid) {
+	public ModelAndView admin_notice_delete_check(String nid, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		
+		//DB연동
 		CgvNoticeDAO dao = new CgvNoticeDAO();
+		CgvNoticeVO vo = dao.select(nid);
 		int result = dao.delete(nid);
-		if(result == 1){
+	
+		if(result == 1){	
+			if(vo.getNsfile() != null) {
+				String path = request.getSession().getServletContext().getRealPath("/");
+				path += "\\resources\\upload\\";
+	
+				File old_file = new File(path + vo.getNsfile());
+				if(old_file.exists()) {
+					old_file.delete();
+				}
+			}
 			mv.setViewName("redirect:/admin_notice_list.do");
-		}else{
-			mv.setViewName("errorPage");
-		}
-		
+	}else{
+	
+		mv.setViewName("errorPage");
+	}		
+	
 		return mv;
 	}
 	

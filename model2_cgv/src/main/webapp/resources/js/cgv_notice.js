@@ -91,7 +91,6 @@ $(document).ready(function(){
 		
 		//제목 클릭 이벤트 - bclass에 대한 기능 구현
 		function noticeContent(nid){
-			//alert("상세보기;;;nid="+nid);
 			$.ajax({
 				url:"notice_content_json.do?nid="+nid,
 				success:function(result){
@@ -109,7 +108,7 @@ $(document).ready(function(){
 					output += "</tr>";
 					output += "<tr>";
 					output += "<th>내용</th>";
-					output += "<td colspan='3'>" + data.ncontent + "<br><br><br></td>";
+					output += "<td colspan='3'>" + data.ncontent + "<br><br><img src='http://localhost:9000/model2_cgv/resources/upload/data.nsfile' width='50%'><br></td>";
 					output += "</tr>";
 					output += "<tr>";
 					output += "<td colspan='4'>";
@@ -130,7 +129,7 @@ $(document).ready(function(){
 					
 					//홈으로 버튼에 대한 이벤트
 					$("#backHome").click(function(){
-						$(location).attr("href","http://localhost:9000/mycgv/index.do");
+						$(location).attr("href","http://localhost:9000/model2_cgv/index.do");
 					});
 					
 				}//success

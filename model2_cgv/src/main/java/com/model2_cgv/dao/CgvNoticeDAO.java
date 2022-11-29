@@ -11,12 +11,14 @@ public class CgvNoticeDAO extends DBConn{
 	public int insert(CgvNoticeVO vo) {
 		int result = 0;
 		String sql = "insert into cgv_notice "
-				+ " values('n_'||sequ_cgv_notice.nextval,?,?,'','',0,sysdate)";
+				+ " values('n_'||sequ_cgv_notice.nextval,?,?,?,?,0,sysdate)";
 		
 		try {
 			getPreparedStatement(sql);
 			pstmt.setString(1, vo.getNtitle());
 			pstmt.setString(2, vo.getNcontent());
+			pstmt.setString(3, vo.getNfile());
+			pstmt.setString(4, vo.getNsfile());
 			
 			result = pstmt.executeUpdate();
 			close();
@@ -68,7 +70,7 @@ public class CgvNoticeDAO extends DBConn{
 	 */
 	public CgvNoticeVO select(String nid) {
 		CgvNoticeVO vo = new CgvNoticeVO();
-		String sql = "select nid,ntitle,ncontent,nhits,ndate "
+		String sql = "select nid,ntitle,ncontent,nhits,ndate,nfile,nsfile "
 				+ " from cgv_notice where nid=?";
 		
 		try {
@@ -81,6 +83,8 @@ public class CgvNoticeDAO extends DBConn{
 				vo.setNcontent(rs.getString(3));
 				vo.setNhits(rs.getInt(4));
 				vo.setNdate(rs.getString(5));
+				vo.setNfile(rs.getString(6));
+				vo.setNsfile(rs.getString(7));
 			}
 			
 			//close();  //조회수 처리시 커넥션 종료를 막기위해 주석처리함!!!			
@@ -117,14 +121,16 @@ public class CgvNoticeDAO extends DBConn{
 	 */
 	public int update(CgvNoticeVO vo) {
 		int result = 0;
-		String sql = "update cgv_notice set ntitle=?,ncontent=? "
+		String sql = "update cgv_notice set ntitle=?,ncontent=?, nfile=?, nsfile=? "
 				+ " where nid=?";
 		
 		try {
 			getPreparedStatement(sql);
 			pstmt.setString(1, vo.getNtitle());
 			pstmt.setString(2, vo.getNcontent());
-			pstmt.setString(3, vo.getNid());
+			pstmt.setString(3, vo.getNfile());
+			pstmt.setString(4, vo.getNsfile());
+			pstmt.setString(5, vo.getNid());
 			
 			result = pstmt.executeUpdate();
 			

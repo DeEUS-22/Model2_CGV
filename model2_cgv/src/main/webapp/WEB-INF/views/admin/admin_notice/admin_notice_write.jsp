@@ -20,7 +20,7 @@
 <!-------------------->
 <div class="content">
 	<h1>공지사항-글쓰기</h1>
-	<form name="boardWriteForm" action="adminNoticeWriteCheck.do" method="post">
+	<form name="boardWriteForm" action="adminNoticeWriteCheck.do" method="post" enctype="multipart/form-data">
 		<ul>
 			<li>
 				<label>제목</label>
