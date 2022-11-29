@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,11 +14,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.model2_cgv.dao.CgvMemberDAO;
 import com.model2_cgv.dao.CgvNoticeDAO;
+import com.model2_cgv.service.MemberServiceImpl;
 import com.model2_cgv.vo.CgvMemberVO;
 import com.model2_cgv.vo.CgvNoticeVO;
 
 @Controller
 public class AdminController {
+	
+	@Autowired
+	private MemberServiceImpl memberService;
+	
 	/**
 	 * admin.do
 	 */
@@ -291,8 +297,7 @@ public class AdminController {
 	public ModelAndView admin_member_content(String id) {
 		ModelAndView mv = new ModelAndView();
 
-		CgvMemberDAO dao = new CgvMemberDAO();
-		CgvMemberVO vo = dao.selectContent(id);
+		CgvMemberVO vo = memberService.getMemberContent(id);
 		String address = vo.getZonecode()+" "+vo.getAddr1()+" "+ vo.getAddr2();
 		
 		mv.addObject("vo", vo);

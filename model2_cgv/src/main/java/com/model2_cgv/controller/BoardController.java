@@ -6,16 +6,22 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.model2_cgv.dao.CgvBoardDAO;
+import com.model2_cgv.service.BoardServiceImpl;
 import com.model2_cgv.vo.CgvBoardVO;
 
 @Controller
 public class BoardController {
+	
+	@Autowired
+	private BoardServiceImpl boardService;
+	
 	/**
 	 * board_list.do
 	 */
@@ -24,7 +30,6 @@ public class BoardController {
 		ModelAndView mv = new ModelAndView();
 		
 		//화면에서 전송된 페이지요청 번호 가져오기
-		//String rpage = request.getParameter("rpage"); 
 		CgvBoardDAO dao = new CgvBoardDAO();
 
 		//페이징 처리 - startCount, endCount 구하기
@@ -87,8 +92,7 @@ public class BoardController {
 			vo.setBsfile(uuid + "_" + vo.getFile1().getOriginalFilename());
 		}
 		
-		CgvBoardDAO dao = new CgvBoardDAO();
-		int result = dao.insert(vo);
+		int result = boardService.getWriteResult(vo);
 		
 		if(result == 1){
 			if(!vo.getFile1().getOriginalFilename().equals("")) {
@@ -114,10 +118,9 @@ public class BoardController {
 	public ModelAndView board_content(String bid) {
 		ModelAndView mv = new ModelAndView();
 		
-		CgvBoardDAO dao = new CgvBoardDAO();
-		CgvBoardVO vo = dao.select(bid);
+		CgvBoardVO vo = boardService.getContent(bid);
 		if(vo != null){
-			dao.updateHits(bid);
+			boardService.getUpdateHits(bid);
 		}
 		
 		mv.addObject("vo", vo);
@@ -132,8 +135,7 @@ public class BoardController {
 	@RequestMapping(value="/board_update.do", method=RequestMethod.GET)
 	public ModelAndView board_update(String bid) {
 		ModelAndView mv = new ModelAndView();
-		CgvBoardDAO dao = new CgvBoardDAO();
-		CgvBoardVO vo = dao.select(bid);
+		CgvBoardVO vo = boardService.getContent(bid);
 		
 		mv.addObject("vo", vo);
 		mv.setViewName("/board/board_update");
@@ -161,8 +163,8 @@ public class BoardController {
 			vo.setBsfile(uuid+"_"+vo.getFile1().getOriginalFilename());
 		}				
 		
-		CgvBoardDAO dao = new CgvBoardDAO();
-		int result = dao.update(vo);
+		int result = boardService.getUpdate(vo);
+		
 		if(result == 1){
 			//새로운 파일을 upload 폴더에 저장
 			if(!vo.getFile1().getOriginalFilename().equals("")) { //새로운 파일선택 O
@@ -208,9 +210,9 @@ public class BoardController {
 	public ModelAndView board_delete_check(String bid, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		
-		CgvBoardDAO dao = new CgvBoardDAO();
-		CgvBoardVO vo = dao.select(bid);
-		int result = dao.delete(bid);
+		//삭제할 bid 행에 bsfile의 이름을 가져오기 위해 dao.select(bid) 메소드 호출--> upload폴더에 파일 유무 확인
+		CgvBoardVO vo = boardService.getContent(bid); //dao.select(bid) 메소드는 delete 메소드 호출 전에 실행되어야함!! 
+		int result = boardService.getDelete(bid);
 		
 		if(result == 1){
 			//if(!vo.getBsfile().equals("")) {
@@ -225,7 +227,7 @@ public class BoardController {
 			}
 			mv.setViewName("redirect:/board_list.do");
 		}else{
-			mv.setViewName("errorPage");
+			mv.setViewName("error_page");
 		}
 		
 		return mv;
