@@ -6,21 +6,21 @@
     
 <mapper namespace="mapper.member">
 	<!-- member join -->
-	<insert id="join" parameterType="com.mycgv.vo.CgvMemberVO" >
+	<insert id="join" parameterType="com.model2_cgv.vo.CgvMemberVO" >
 		insert into cgv_member	
 			 values (#{id},#{pass},#{name},#{gender},#{email},#{zonecode},#{addr1}
 			 			,#{addr2},#{hp},#{pnumber},#{hobbylist},#{intro},sysdate)
 	</insert>
 	
 	<!-- member login -->
-	<select id="login" parameterType="com.mycgv.vo.CgvMemberVO" resultType="com.mycgv.vo.SessionVO">
+	<select id="login" parameterType="com.model2_cgv.vo.CgvMemberVO" resultType="com.model2_cgv.vo.SessionVO">
 		select count(*) loginresult, name, id
 			from cgv_member  where id=#{id} and pass=#{pass}
 			group by name, id
 	</select>
 	
 	<!-- member list -->
-	<select id="listAll" parameterType="map" resultType="com.mycgv.vo.CgvMemberVO">
+	<select id="listAll" parameterType="map" resultType="com.model2_cgv.vo.CgvMemberVO">
 		select rno, id, name, pnumber, mdate 
 			 from (select rownum rno, id, name, pnumber, to_char(mdate,'yyyy-mm-dd') mdate 
 				 from (select id, name, pnumber, mdate from cgv_member  
@@ -29,7 +29,7 @@
 	</select>
 	
 	<!-- member content -->
-	<select id="content" parameterType="java.lang.String"  resultType="com.mycgv.vo.CgvMemberVO">
+	<select id="content" parameterType="java.lang.String"  resultType="com.model2_cgv.vo.CgvMemberVO">
 		select id, name, zonecode, addr1, addr2, pnumber , hobbylist, mdate, intro  
 				 from cgv_member where id=#{id}
 	</select>

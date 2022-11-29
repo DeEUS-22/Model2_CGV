@@ -59,7 +59,7 @@ public class BoardController {
 	/**
 	 * board_write.do
 	 */
-	@RequestMapping(value="/board_write_check.do", method=RequestMethod.POST)
+	@RequestMapping(value="/boardWriteCheck.do", method=RequestMethod.POST)
 	public ModelAndView board_write_check(CgvBoardVO vo, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		

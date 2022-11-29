@@ -34,6 +34,7 @@
 	<beans:bean id="memberService"  class="com.model2_cgv.service.MemberServiceImpl"></beans:bean>
 	<beans:bean id="noticeService"  class="com.model2_cgv.service.NoticeServiceImpl"></beans:bean>
 	<beans:bean id="fileService"  class="com.model2_cgv.service.FileServiceImpl"></beans:bean>
+	<beans:bean id="pageService"  class="com.model2_cgv.service.PageServiceImpl"></beans:bean>
 	
 	<!-- dao 객체 생성 :  -->
 	<beans:bean id="memberDao"  class="com.model2_cgv.dao.CgvMemberDAO"></beans:bean>

@@ -6,6 +6,7 @@ public class CgvMemberVO {
 	int rno;
 	String id, pass, name, gender, email1, email2, zonecode,
 			addr1, addr2, hp, pnum1, pnum2, pnum3, intro,mdate;
+
 	String[] hobby;
 	
 	//DB ¿¬µ¿½Ã
@@ -130,8 +131,13 @@ public class CgvMemberVO {
 		this.pnumber = pnumber;
 	}
 	public String getHobbylist() {
-		return hobbylist;
+		if(hobbylist == null) {
+			return String.join(",", hobby);
+		}else {
+			return hobbylist;
+		}
 	}
+	
 	public void setHobbylist(String hobbylist) {
 		this.hobbylist = hobbylist;
 	}

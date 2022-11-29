@@ -6,13 +6,13 @@
     
 <mapper namespace="mapper.notice">
 	<!-- notice insert -->
-	<insert id="insert" parameterType="com.mycgv.vo.CgvNoticeVO">
+	<insert id="insert" parameterType="com.model2_cgv.vo.CgvNoticeVO">
 		insert into cgv_notice 
 				 values('n_'||sequ_cgv_notice.nextval,#{ntitle},#{ncontent},#{nfile},#{nsfile},0,sysdate)
 	</insert>
 	
 	<!-- notice list -->
-	<select id="list" parameterType="map" resultType="com.mycgv.vo.CgvNoticeVO">
+	<select id="list" parameterType="map" resultType="com.model2_cgv.vo.CgvNoticeVO">
 		select rno, nid, ntitle, nhits, ndate 
 				 from (select rownum rno, nid, ntitle, nhits,to_char(ndate,'yyyy-mm-dd') ndate  
 				 from (select nid, ntitle, nhits,ndate from cgv_notice 
@@ -21,7 +21,7 @@
 	</select>
 	
 	<!-- notice content -->
-	<select id="content" parameterType="java.lang.String" resultType="com.mycgv.vo.CgvNoticeVO">
+	<select id="content" parameterType="java.lang.String" resultType="com.model2_cgv.vo.CgvNoticeVO">
 		select nid,ntitle,ncontent,nhits,ndate,nfile,nsfile 
 				 from cgv_notice where nid=#{nid}
 	</select>
@@ -32,7 +32,7 @@
 	</update>
 	
 	<!-- notice update -->
-	<update id="update" parameterType="com.mycgv.vo.CgvNoticeVO">
+	<update id="update" parameterType="com.model2_cgv.vo.CgvNoticeVO">
 		update cgv_notice set ntitle=#{ntitle},ncontent=#{ncontent}, nfile=#{nfile}, nsfile=#{nsfile} 
 				 where nid=#{nid}
 	</update>
