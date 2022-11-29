@@ -51,6 +51,25 @@ public class LoginController {
 		return mv;
 	}
 	
-	
+	/**
+	 * logout.do : 로그아웃
+	 */
+	@RequestMapping(value="/logout.do", method=RequestMethod.GET)
+	public ModelAndView logout(HttpSession session) {
+		ModelAndView mv = new ModelAndView();
+		
+		//세션정보를 가져와서 sid 값이 null이 아니면 session.invalidate 메소드 호출
+		SessionVO svo = (SessionVO)session.getAttribute("svo");
+		
+		if(svo != null) {
+			session.invalidate();	//세션 정보 삭제
+			mv.addObject("logout_result","ok"); //index 페이지에서 logout_result 값을 받아서 ok인 경우 alert 창을 띄움
+		}
+		
+		mv.setViewName("/index");
+		
+		return mv;
+		
+	}
 	
 }

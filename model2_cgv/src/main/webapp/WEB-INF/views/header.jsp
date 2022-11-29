@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,6 +19,8 @@
 				<img src="http://localhost:9000/model2_cgv/resources/images/logoRed.png" width="150" height="70"></a>
 			<span>CULTURFLEX</span>
 		</div>
+		<c:choose>	
+		<c:when test="${sessionScope.svo == null}">	
 		<div>
 			<a href="http://localhost:9000/model2_cgv/preparing.do" target="_parent" >
 				<img src="http://localhost:9000/model2_cgv/resources/images/hcard.png" class="hcard">
@@ -43,6 +46,42 @@
 				<span>공지사항</span>
 			</a>				
 		</div>
+		</c:when>
+		
+		<c:otherwise>
+		<div>
+			<img src="http://localhost:9000/model2_cgv/resources/images/hcard.png">
+			<a href="http://localhost:9000/model2_cgv/logout.do" target="_parent" >
+				<img src="http://localhost:9000/model2_cgv/resources/images/loginPassword.png">
+				<span>로그아웃</span>
+			</a>
+			<a href="http://localhost:9000/model2_cgv/join.do" target="_parent" >
+				<img src="http://localhost:9000/model2_cgv/resources/images/loginJoin.png">
+				<span>회원가입</span>
+			</a>
+			<a href="http://localhost:9000/model2_cgv/mycgv.do" target="_parent">
+				<img src="http://localhost:9000/model2_cgv/resources/images/loginMember.png">
+				<span>MY CGV</span>
+			</a>
+			<a href="http://localhost:9000/model2_cgv/board_list.do" target="_parent" >
+				<img src="http://localhost:9000/model2_cgv/resources/images/loginCustomer.png">
+				<span>게시판</span>
+			</a>
+			<a href="http://localhost:9000/model2_cgv/notice_list.do" target="_parent" >
+				<img src="http://localhost:9000/model2_cgv/resources/images/loginCustomer.png">
+				<span>공지사항</span>
+			</a>
+			<!-- 관리자 계정인 경우에만 admin 메뉴를 open -->
+			<c:if test="${sessionScope.svo.id == 'admin' }">
+			<a href="http://localhost:9000/model2_cgv/admin.do" target="_parent" >
+				<img src="http://localhost:9000/model2_cgv/resources/images/loginCustomer.png">
+				<span>Admin</span>
+			</a>
+			</c:if>				
+		</div>				
+		</c:otherwise>
+		
+		</c:choose>
 	</div>
 	<div class="header_contents2">
 		<nav>

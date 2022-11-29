@@ -11,6 +11,12 @@
 <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
 <script>
 	let login_result = '${login_result}';
+	let logout_result = '${logout_result}';
+	
+	if(logout_result == 'ok'){
+		alert("로그아웃에 성공하셨습니다.");
+	}
+	
 	if(login_result == 'ok'){
 		alert("로그인에 성공하셨습니다.");
 	}
