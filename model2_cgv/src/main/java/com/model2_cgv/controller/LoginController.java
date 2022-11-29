@@ -1,5 +1,7 @@
 package com.model2_cgv.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.model2_cgv.service.MemberServiceImpl;
 import com.model2_cgv.vo.CgvMemberVO;
+import com.model2_cgv.vo.SessionVO;
 
 @Controller
 public class LoginController {
@@ -27,18 +30,24 @@ public class LoginController {
 	 * loginCheck.do
 	 */
 	@RequestMapping(value="/loginCheck.do", method=RequestMethod.POST)
-	public ModelAndView loginCheck(CgvMemberVO vo) {
+	public ModelAndView loginCheck(CgvMemberVO vo, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
-		int result = memberService.getLoginResult(vo); 
 		
-		if(result == 1) {
-			mv.addObject("login_result","ok");
-			mv.setViewName("index");
+		SessionVO svo = memberService.getLoginResult(vo); 
+		
+		if(svo != null) {
+			if(svo.getLoginresult() == 1){
+				//로그인 성공 --> session객체에 key(sid),value(로그인계정) 추가 후 index 페이지로 이동
+				//session.setAttribute("sid", vo.getId());
+				session.setAttribute("svo", svo);
+				mv.addObject("login_result","ok");
+				mv.setViewName("index");
+			}
 		}else{
 			mv.addObject("login_result","fail");
 			mv.setViewName("/login/login");
 		}
-		
+				
 		return mv;
 	}
 	

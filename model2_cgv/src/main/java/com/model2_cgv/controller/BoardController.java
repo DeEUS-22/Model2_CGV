@@ -1,8 +1,7 @@
 package com.model2_cgv.controller;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.UUID;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.model2_cgv.dao.CgvBoardDAO;
 import com.model2_cgv.service.BoardServiceImpl;
 import com.model2_cgv.service.FileServiceImpl;
+import com.model2_cgv.service.PageServiceImpl;
 import com.model2_cgv.vo.CgvBoardVO;
 
 @Controller
@@ -26,48 +25,25 @@ public class BoardController {
 	@Autowired
 	private FileServiceImpl fileService;
 	
+	@Autowired
+	private PageServiceImpl pageService;
+	
 	/**
 	 * board_list.do
 	 */
 	@RequestMapping(value="/board_list.do", method=RequestMethod.GET)
 	public ModelAndView board_list(String rpage) {
 		ModelAndView mv = new ModelAndView();
-		
-		//화면에서 전송된 페이지요청 번호 가져오기
-		CgvBoardDAO dao = new CgvBoardDAO();
 
-		//페이징 처리 - startCount, endCount 구하기
-		int startCount = 0;
-		int endCount = 0;
-		int pageSize = 3;	//한페이지당 게시물 수
-		int reqPage = 1;	//요청페이지	
-		int pageCount = 1;	//전체 페이지 수
-		int dbCount = dao.totalCount();	//DB에서 가져온 전체 행수
-		
-		//총 페이지 수 계산
-		if(dbCount % pageSize == 0){
-			pageCount = dbCount/pageSize;
-		}else{
-			pageCount = dbCount/pageSize+1;
-		}
-		
-		//요청 페이지 계산
-		if(rpage != null){
-			reqPage = Integer.parseInt(rpage);
-			startCount = (reqPage-1) * pageSize+1;
-			endCount = reqPage *pageSize;
-		}else{
-			startCount = 1;
-			endCount = pageSize;
-		}
-
-		ArrayList<CgvBoardVO> list = dao.select(startCount, endCount);
+		Map<String, Integer> param = pageService.getPageResult(rpage, "board", boardService);
+		ArrayList<CgvBoardVO> list = boardService.getList(param.get("startCount"), param.get("endCount"));
 		
 		mv.addObject("list", list);
-		mv.addObject("dbCount", dbCount);
-		mv.addObject("pageSize", pageSize);
-		mv.addObject("rpage", reqPage);
+		mv.addObject("dbCount", param.get("dbCount"));
+		mv.addObject("pageSize", param.get("pageSize"));
+		mv.addObject("rpage", param.get("rpage"));
 		mv.setViewName("/board/board_list");
+		
 		
 		return mv;
 	}
@@ -83,13 +59,12 @@ public class BoardController {
 	/**
 	 * board_write.do
 	 */
-	@RequestMapping(value="/boardWriteCheck.do", method=RequestMethod.POST)
+	@RequestMapping(value="/board_write_check.do", method=RequestMethod.POST)
 	public ModelAndView board_write_check(CgvBoardVO vo, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		
 		//1. 파일체크 후 bfile, bsfile에 저장되는 이름 생성
 		vo = fileService.fileCheck(vo);
-		
 		int result = boardService.getWriteResult(vo);
 		
 		if(result == 1){
@@ -97,9 +72,10 @@ public class BoardController {
 			//2. upload 폴더에 bsfile 명으로 실제 파일 업로드 처리
 			fileService.fileSave(vo, request);
 			
+			//mv.setViewName("/board/board_list"); //에러X, 아무런 게시글 출력되지 X
 			mv.setViewName("redirect:/board_list.do"); //DB연동을 Controller에서 진행하므로, 새로운 연결을 수행!!
 		}else{
-			mv.setViewName("errorPage");
+			mv.setViewName("error_page");
 		}
 		
 		return mv;
@@ -190,7 +166,6 @@ public class BoardController {
 		int result = boardService.getDelete(bid);
 		
 		if(result == 1){
-			//if(!vo.getBsfile().equals("")) {
 			fileService.fileDelete(vo, request);
 			mv.setViewName("redirect:/board_list.do");
 		}else{

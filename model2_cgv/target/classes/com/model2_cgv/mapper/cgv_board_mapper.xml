@@ -28,7 +28,7 @@
 		 from cgv_board  where bid=#{bid}
 	</select>
 	
-	<!-- board upatehits -->
+	<!-- board updatehits -->
 	<update id="updatehits" parameterType="java.lang.String">
 		update cgv_board set bhits = bhits+1  where bid=#{bid}
 	</update>

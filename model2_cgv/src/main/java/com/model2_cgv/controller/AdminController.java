@@ -1,8 +1,7 @@
 package com.model2_cgv.controller;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.UUID;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.model2_cgv.dao.CgvMemberDAO;
-import com.model2_cgv.dao.CgvNoticeDAO;
 import com.model2_cgv.service.FileServiceImpl;
 import com.model2_cgv.service.MemberServiceImpl;
 import com.model2_cgv.service.NoticeServiceImpl;
+import com.model2_cgv.service.PageServiceImpl;
 import com.model2_cgv.vo.CgvMemberVO;
 import com.model2_cgv.vo.CgvNoticeVO;
 
@@ -31,6 +30,9 @@ public class AdminController {
 	
 	@Autowired
 	private FileServiceImpl fileService;
+	
+	@Autowired
+	private PageServiceImpl pageService;
 	
 	/**
 	 * admin.do
@@ -47,40 +49,14 @@ public class AdminController {
 	public ModelAndView admin_notice_list(String rpage) {
 		ModelAndView mv = new ModelAndView();
 		
-		CgvNoticeDAO dao = new CgvNoticeDAO();
+		Map<String, Integer> param = pageService.getPageResult(rpage, "notice", noticeService);
 
-		//startCount, endCount
-		//페이징 처리 - startCount, endCount 구하기
-		int startCount = 0;
-		int endCount = 0;
-		int pageSize = 5;	//한페이지당 게시물 수
-		int reqPage = 1;	//요청페이지	
-		int pageCount = 1;	//전체 페이지 수
-		int dbCount = dao.totalCount();	//DB에서 가져온 전체 행수
-		
-		//총 페이지 수 계산
-		if(dbCount % pageSize == 0){
-			pageCount = dbCount/pageSize;
-		}else{
-			pageCount = dbCount/pageSize+1;
-		}
-		
-		//요청 페이지 계산
-		if(rpage != null){
-			reqPage = Integer.parseInt(rpage);
-			startCount = (reqPage-1) * pageSize+1;
-			endCount = reqPage *pageSize;
-		}else{
-			startCount = 1;
-			endCount = pageSize;
-		}
-
-		ArrayList<CgvNoticeVO> list = dao.select(startCount, endCount);
+		ArrayList<CgvNoticeVO> list = noticeService.getList(param.get("startCount"),param.get("endCount"));
 		
 		mv.addObject("list",list);
-		mv.addObject("dbCount", dbCount);
-		mv.addObject("rpage", reqPage);
-		mv.addObject("pageSize", pageSize);
+		mv.addObject("dbCount", param.get("dbCount"));
+		mv.addObject("rpage", param.get("rpage"));
+		mv.addObject("pageSize", param.get("pageSize"));
 		mv.setViewName("/admin/admin_notice/admin_notice_list");
 		
 		return mv;
@@ -192,7 +168,7 @@ public class AdminController {
 	@RequestMapping(value="/adminDeleteNoticeCheck.do", method=RequestMethod.POST)
 	public ModelAndView admin_notice_delete_check(String nid, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		//DB연동
+
 		CgvNoticeVO vo = noticeService.getContent(nid);
 		int result = noticeService.getDelete(nid);
 	
@@ -214,44 +190,14 @@ public class AdminController {
 	public ModelAndView admin_member_list(String rpage) {
 		ModelAndView mv = new ModelAndView();
 		
-		//String rpage = request.getParameter("rpage");
-		CgvMemberDAO dao = new CgvMemberDAO();
-		
-		//startCount, endCount
-		//페이징 처리 - startCount, endCount 구하기
-		int startCount = 0;
-		int endCount = 0;
-		int pageSize = 5;	//한페이지당 게시물 수
-		int reqPage = 1;	//요청페이지	
-		int pageCount = 1;	//전체 페이지 수
-		int dbCount = dao.totalCount();	//DB에서 가져온 전체 행수
-		
-		//총 페이지 수 계산
-		if(dbCount % pageSize == 0){
-			pageCount = dbCount/pageSize;
-		}else{
-			pageCount = dbCount/pageSize+1;
-		}
-		
-		//요청 페이지 계산
-		if(rpage != null){
-			reqPage = Integer.parseInt(rpage);
-			startCount = (reqPage-1) * pageSize+1;
-			endCount = reqPage *pageSize;
-		}else{
-			startCount = 1;
-			endCount = pageSize;
-		}
-
-
-		ArrayList<CgvMemberVO> list = dao.selectAll(startCount, endCount);
+		Map<String, Integer> param = pageService.getPageResult(rpage, "member", memberService);
+		ArrayList<CgvMemberVO> list = memberService.getMemberList(param.get("startCount"), param.get("endCount"));
 		
 		mv.addObject("list", list);
-		mv.addObject("dbCount", dbCount);
-		mv.addObject("rpage", reqPage);
-		mv.addObject("pageSize", pageSize);
-		mv.setViewName("/admin/admin_member/admin_member_list");
-		
+		mv.addObject("dbCount", param.get("dbCount"));
+		mv.addObject("rpage", param.get("rpage"));
+		mv.addObject("pageSize", param.get("pageSize"));
+		mv.setViewName("/admin/admin_member/admin_member_list");		
 		
 		return mv;
 	}

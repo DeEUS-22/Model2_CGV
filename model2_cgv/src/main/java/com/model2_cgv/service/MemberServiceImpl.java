@@ -1,20 +1,26 @@
 package com.model2_cgv.service;
 
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.model2_cgv.dao.CgvMemberDAO;
 import com.model2_cgv.vo.CgvMemberVO;
+import com.model2_cgv.vo.SessionVO;
 
 @Service
 public class MemberServiceImpl implements MemberService{
+	
+	@Autowired
+	private CgvMemberDAO memberDao;
+	
 	/**
 	 * 로그인 처리
 	 */
 	@Override
-	public int getLoginResult(CgvMemberVO vo) {	
-		CgvMemberDAO dao = new CgvMemberDAO();
-		int result = dao.select(vo);		
-		return result;
+	public SessionVO getLoginResult(CgvMemberVO vo) {	
+		return memberDao.select(vo);		
 	}
 	
 	/** 
@@ -22,9 +28,25 @@ public class MemberServiceImpl implements MemberService{
 	 */
 	@Override
 	public int getJoinResult(CgvMemberVO vo) {	
-		CgvMemberDAO dao = new CgvMemberDAO();
-		int result = dao.insert(vo);		
-		return result;
+		return memberDao.insert(vo);
+	}
+	
+	/**
+	 * 회원 전체 리스트
+	 */
+	@Override
+	public ArrayList<CgvMemberVO> getMemberList(int startCount, int endCount){	
+		ArrayList<CgvMemberVO> list = memberDao.selectAll(startCount, endCount);
+		
+		return list;
+	}
+	
+	/**
+	 * 회원 전체수
+	 */
+	@Override
+	public int getTotalCount() {
+		return memberDao.totalCount();
 	}
 	
 	/**
@@ -32,8 +54,6 @@ public class MemberServiceImpl implements MemberService{
 	 */
 	@Override
 	public CgvMemberVO getMemberContent(String id) {
-		CgvMemberDAO dao = new CgvMemberDAO();
-		CgvMemberVO vo = dao.selectContent(id);
-		return vo;
+		return memberDao.selectContent(id);
 	}
 }

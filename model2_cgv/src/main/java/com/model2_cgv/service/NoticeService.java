@@ -1,5 +1,7 @@
 package com.model2_cgv.service;
 
+import java.util.ArrayList;
+
 import com.model2_cgv.vo.CgvNoticeVO;
 
 public interface NoticeService {
@@ -8,5 +10,7 @@ public interface NoticeService {
 	void getUpdateHits(String nid);     //공지사항 조회수 업데이트
 	int getUpdate(CgvNoticeVO vo);		//공지사항 수정 처리
 	int getDelete(String nid);		//공지사항 삭제 처리
+	int getTotalCount();	//공지사항 전체 로우수
+	ArrayList<CgvNoticeVO> getList(int startCount, int endCount);  //공지사항 전체 리스트
 	
 }
