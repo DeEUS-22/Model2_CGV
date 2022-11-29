@@ -11,12 +11,14 @@ public class CgvBoardDAO extends DBConn{
 	public int insert(CgvBoardVO vo) {
 		int result = 0;
 		String sql = "insert into cgv_board "
-				+ " values('b_'||sequ_cgv_board.nextval, ?, ?, '', '', 0, sysdate)";
+				+ " values('b_'||sequ_cgv_board.nextval, ?, ?, ?, ?, 0, sysdate)";
 		
 		try {
 			getPreparedStatement(sql);
 			pstmt.setString(1, vo.getBtitle());
 			pstmt.setString(2, vo.getBcontent());
+			pstmt.setString(3, vo.getBfile());
+			pstmt.setString(4, vo.getBsfile());
 			
 			result = pstmt.executeUpdate();
 			
@@ -24,7 +26,6 @@ public class CgvBoardDAO extends DBConn{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		
 		return result;
 	}

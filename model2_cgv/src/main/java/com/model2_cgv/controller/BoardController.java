@@ -1,6 +1,10 @@
 package com.model2_cgv.controller;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -77,9 +81,8 @@ public class BoardController {
 		return mv;
 	}
 	
-	
 	/**
-	 * board_write.do
+	 * board_write.do : 게시판 글쓰기 화면
 	 */
 	@RequestMapping(value="/board_write.do", method=RequestMethod.GET)
 	public String board_write() {
@@ -87,30 +90,40 @@ public class BoardController {
 	}
 	
 	/**
-	 * boardWriteCheck.do
+	 * board_write.do
 	 */
 	@RequestMapping(value="/boardWriteCheck.do", method=RequestMethod.POST)
-	public ModelAndView boardWriteCheck(CgvBoardVO vo) {
+	public ModelAndView board_write_check(CgvBoardVO vo, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView();
+		
+		if(vo.getFile1().getOriginalFilename().equals("")) {
+			vo.setBfile("");
+			vo.setBsfile("");
+		}else {
+			UUID uuid = UUID.randomUUID();
+			vo.setBfile(vo.getFile1().getOriginalFilename());
+			vo.setBsfile(uuid + "_" + vo.getFile1().getOriginalFilename());
+		}
+		
 		CgvBoardDAO dao = new CgvBoardDAO();
 		int result = dao.insert(vo);
 		
-		if(result == 1) {
-			mv.setViewName("redirect:/board_list.do");
-		}else {
+		if(result == 1){
+			if(!vo.getFile1().getOriginalFilename().equals("")) {
+				String path = request.getSession().getServletContext().getRealPath("/");
+				path += "\\resources\\upload\\";
+				
+				File file = new File(path+vo.getBsfile());
+				vo.getFile1().transferTo(file);
+			}
+			
+			mv.setViewName("redirect:/board_list.do"); //DB연동을 Controller에서 진행하므로, 새로운 연결을 수행!!
+		}else{
 			mv.setViewName("errorPage");
 		}
 		
 		return mv;
 	}
-	
-	/**
-	 * board_content.do
-	 */
-//	@RequestMapping(value="/board_content.do", method=RequestMethod.GET)
-//	public String board_content() {
-//		return "/board/board_content";
-//	}
 	
 	/**
 	 * board_content.do

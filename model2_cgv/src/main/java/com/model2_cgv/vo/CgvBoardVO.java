@@ -1,9 +1,19 @@
 package com.model2_cgv.vo;
 
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 public class CgvBoardVO {
 	int rno, bhits;
 	String bid, btitle, bcontent, bfile, bsfile, bdate;
+	CommonsMultipartFile file1;
 	
+	
+	public CommonsMultipartFile getFile1() {
+		return file1;
+	}
+	public void setFile1(CommonsMultipartFile file1) {
+		this.file1 = file1;
+	}
 	public int getRno() {
 		return rno;
 	}

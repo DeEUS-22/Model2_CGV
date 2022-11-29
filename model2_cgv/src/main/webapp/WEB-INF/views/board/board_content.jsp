@@ -1,15 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import = "com.model2_cgv.vo.CgvBoardVO" %>
-<%@ page import = "com.model2_cgv.dao.CgvBoardDAO" %>
-<%
-	String bid = request.getParameter("bid");
-	CgvBoardDAO dao = new CgvBoardDAO();
-	CgvBoardVO vo = dao.select(bid);
-	if(vo != null){
-		dao.updateHits(bid);
-	}
-%>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,22 +21,22 @@
 	<table class="boardContent">	
 		<tr>				
 			<th>등록일자</th>
-			<td><%= vo.getBdate() %></td>
+			<td>${vo.bdate }</td>
 			<th>조회수</th>
-			<td><%= vo.getBhits() %></td>
+			<td>${vo.bhits }</td>
 		</tr>		
 		<tr>				
 			<th>제목</th>
-			<td colspan="3"><%= vo.getBtitle() %></td>
+			<td colspan="3">${vo.btitle }</td>
 		</tr>
 		<tr>				
 			<th>내용</th>
-			<td colspan="3"><%= vo.getBcontent() %><br><br><br><br></td>
+			<td colspan="3">${vo.bcontent }<br><br><br><br></td>
 		</tr>
 		<tr>
 			<td colspan="4">
-				<a href="board_update.do?bid=<%=vo.getBid()%>"><button type="button" class="btn_style">수정하기</button></a>
-				<a href="board_delete.do?bid=<%=vo.getBid()%>"><button type="button" class="btn_style">삭제하기</button></a>
+				<a href="board_update.do?bid=${vo.bid }"><button type="button" class="btn_style">수정하기</button></a>
+				<a href="board_delete.do?bid=${vo.bid }"><button type="button" class="btn_style">삭제하기</button></a>
 				<a href="board_list.do">
 					<button type="button" class="btn_style">리스트</button>
 				</a>
