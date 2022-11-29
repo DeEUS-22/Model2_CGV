@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.model2_cgv.dao.CgvMemberDAO;
 import com.model2_cgv.dao.CgvNoticeDAO;
+import com.model2_cgv.service.FileServiceImpl;
 import com.model2_cgv.service.MemberServiceImpl;
 import com.model2_cgv.service.NoticeServiceImpl;
 import com.model2_cgv.vo.CgvMemberVO;
@@ -27,6 +28,9 @@ public class AdminController {
 	
 	@Autowired
 	private NoticeServiceImpl noticeService;
+	
+	@Autowired
+	private FileServiceImpl fileService;
 	
 	/**
 	 * admin.do
@@ -97,28 +101,13 @@ public class AdminController {
 	public ModelAndView admin_notice_write_check(CgvNoticeVO vo, HttpServletRequest request ) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		
-		if(vo.getFile1().getOriginalFilename().equals("")) {
-			vo.setNfile("");
-			vo.setNsfile("");
-		}else {
-			UUID uuid = UUID.randomUUID();
-		
-			vo.setNfile(vo.getFile1().getOriginalFilename());
-			vo.setNsfile(uuid+"_"+vo.getFile1().getOriginalFilename());
-		
-		}
+		vo = fileService.fileCheck(vo);
 		
 		//DB연동
 		int result = noticeService.getWriteResult(vo);
 		
 		if(result == 1){			
-			if(!vo.getFile1().getOriginalFilename().equals("")) {
-				String path = request.getSession().getServletContext().getRealPath("/");
-				path += "\\resources\\upload\\";
-		
-				File file = new File(path+vo.getNsfile());
-				vo.getFile1().transferTo(file);
-		}
+			fileService.fileSave(vo, request);
 			mv.setViewName("redirect:/admin_notice_list.do");
 		}else{
 			mv.setViewName("errorPage");
@@ -168,30 +157,13 @@ public class AdminController {
 		
 		String old_filename = vo.getNsfile();	//수정화면에서 hidden으로 넘어오는 기존 upload 폴더에 저장된 파일명
 		
-		if(!vo.getFile1().getOriginalFilename().equals("")) {  //새로운 파일을 선택한 경우
-			UUID uuid = UUID.randomUUID();
-		
-			vo.setNfile(vo.getFile1().getOriginalFilename());
-			vo.setNsfile(uuid+"_"+vo.getFile1().getOriginalFilename());
-		}
+		vo = fileService.update_fileCheck(vo);
 		
 		int result = noticeService.getUpdate(vo);
 		
 		if(result == 1){
 			//새로운 파일을 upload 폴더에 저장한 후 기존의 파일은 삭제
-			if(!vo.getFile1().getOriginalFilename().equals("")) {  //새로운 파일을 선택한 경우
-				String path = request.getSession().getServletContext().getRealPath("/");
-				path += "\\resources\\upload\\";
-		
-				File new_file = new File(path+vo.getNsfile());
-				vo.getFile1().transferTo(new_file);
-		
-				//기존 파일 삭제
-				File old_file = new File(path+old_filename);
-				if(old_file.exists()) {
-					old_file.delete();
-				}				
-			}
+			fileService.update_filesave(vo, request, old_filename);
 		
 			mv.setViewName("redirect:/admin_notice_list.do");
 		}else{
@@ -225,15 +197,7 @@ public class AdminController {
 		int result = noticeService.getDelete(nid);
 	
 		if(result == 1){	
-			if(vo.getNsfile() != null) {
-				String path = request.getSession().getServletContext().getRealPath("/");
-				path += "\\resources\\upload\\";
-	
-				File old_file = new File(path + vo.getNsfile());
-				if(old_file.exists()) {
-					old_file.delete();
-				}
-			}
+			fileService.fileDelete(vo, request);
 			mv.setViewName("redirect:/admin_notice_list.do");
 	}else{
 	

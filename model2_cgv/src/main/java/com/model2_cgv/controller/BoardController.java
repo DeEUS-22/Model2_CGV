@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.model2_cgv.dao.CgvBoardDAO;
 import com.model2_cgv.service.BoardServiceImpl;
+import com.model2_cgv.service.FileServiceImpl;
 import com.model2_cgv.vo.CgvBoardVO;
 
 @Controller
@@ -21,6 +22,9 @@ public class BoardController {
 	
 	@Autowired
 	private BoardServiceImpl boardService;
+	
+	@Autowired
+	private FileServiceImpl fileService;
 	
 	/**
 	 * board_list.do
@@ -83,25 +87,15 @@ public class BoardController {
 	public ModelAndView board_write_check(CgvBoardVO vo, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		
-		if(vo.getFile1().getOriginalFilename().equals("")) {
-			vo.setBfile("");
-			vo.setBsfile("");
-		}else {
-			UUID uuid = UUID.randomUUID();
-			vo.setBfile(vo.getFile1().getOriginalFilename());
-			vo.setBsfile(uuid + "_" + vo.getFile1().getOriginalFilename());
-		}
+		//1. 파일체크 후 bfile, bsfile에 저장되는 이름 생성
+		vo = fileService.fileCheck(vo);
 		
 		int result = boardService.getWriteResult(vo);
 		
 		if(result == 1){
-			if(!vo.getFile1().getOriginalFilename().equals("")) {
-				String path = request.getSession().getServletContext().getRealPath("/");
-				path += "\\resources\\upload\\";
-				
-				File file = new File(path+vo.getBsfile());
-				vo.getFile1().transferTo(file);
-			}
+			
+			//2. upload 폴더에 bsfile 명으로 실제 파일 업로드 처리
+			fileService.fileSave(vo, request);
 			
 			mv.setViewName("redirect:/board_list.do"); //DB연동을 Controller에서 진행하므로, 새로운 연결을 수행!!
 		}else{
@@ -155,32 +149,13 @@ public class BoardController {
 		String old_filename = vo.getBsfile();
 		
 		//수정시 새로운 파일을 선택했는지 확인
-		if(!vo.getFile1().getOriginalFilename().equals("")) { //새로운 파일선택 O
-			
-			UUID uuid = UUID.randomUUID();
-			
-			vo.setBfile(vo.getFile1().getOriginalFilename());
-			vo.setBsfile(uuid+"_"+vo.getFile1().getOriginalFilename());
-		}				
+		vo = fileService.update_fileCheck(vo); 		
 		
 		int result = boardService.getUpdate(vo);
 		
 		if(result == 1){
 			//새로운 파일을 upload 폴더에 저장
-			if(!vo.getFile1().getOriginalFilename().equals("")) { //새로운 파일선택 O
-				String path = request.getSession().getServletContext().getRealPath("/");
-				path += "\\resources\\upload\\";
-				
-				File file = new File(path+vo.getBsfile());
-				vo.getFile1().transferTo(file);
-			
-				//기존파일이 있는 경우에는 파일 삭제
-				File ofile = new File(path+old_filename);
-				if(ofile.exists()) {
-					ofile.delete();
-				}
-			}
-			
+			fileService.update_filesave(vo, request, old_filename);
 			
 			mv.setViewName("redirect:/board_list.do");
 		}else{
@@ -216,15 +191,7 @@ public class BoardController {
 		
 		if(result == 1){
 			//if(!vo.getBsfile().equals("")) {
-			if(vo.getBsfile() != null) {
-				String path=request.getSession().getServletContext().getRealPath("/");
-				path += "\\resources\\upload\\";
-				
-				File old_file = new File(path+vo.getBsfile());
-				if(old_file.exists()) {
-					old_file.delete();
-				}
-			}
+			fileService.fileDelete(vo, request);
 			mv.setViewName("redirect:/board_list.do");
 		}else{
 			mv.setViewName("error_page");
