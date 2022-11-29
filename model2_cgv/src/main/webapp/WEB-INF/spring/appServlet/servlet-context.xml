@@ -31,6 +31,8 @@
 	
 	<!-- service 객체 생성 -->
 	<beans:bean id="boardService"  class="com.model2_cgv.service.BoardServiceImpl"></beans:bean>
+	<beans:bean id="memberService"  class="com.model2_cgv.service.MemberServiceImpl"></beans:bean>
+	<beans:bean id="noticeService"  class="com.model2_cgv.service.NoticeServiceImpl"></beans:bean>
 	
 	<context:component-scan base-package="com.project.model2_cgv" />
 	<context:component-scan base-package="com.model2_cgv.controller" />

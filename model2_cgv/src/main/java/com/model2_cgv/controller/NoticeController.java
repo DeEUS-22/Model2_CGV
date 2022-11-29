@@ -105,7 +105,7 @@ public class NoticeController {
 		CgvNoticeVO vo = noticeService.getContent(nid);
 		
 		if(vo != null){
-			dao.updateHits(nid);
+			noticeService.getUpdateHits(nid);
 		}
 		
 		Gson gson = new Gson();
