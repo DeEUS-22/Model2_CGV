@@ -8,6 +8,28 @@
 <link rel="stylesheet"  href="http://localhost:9000/model2_cgv/resources/css/cgv.css">
 <script src="http://localhost:9000/model2_cgv/resources/js/jquery-3.6.0.min.js"></script>
 <script src="http://localhost:9000/model2_cgv/resources/js/cgv.js"></script>
+<style>
+	#upload_file {
+		/*border:1px solid red;*/
+		position:relative;
+		left:265px; top:-30px;
+		width:200px;  height:20px;
+		display:inline-block;	
+		background-color:white;	
+		font-size:12px;
+	}
+</style>
+<script>
+	$(document).ready(function(){
+		//새로운 파일선택하는 이벤트 
+		$("input[type=file]").change(function(){
+			if(window.FileReader){
+				let fname = $(this)[0].files[0].name;
+				$("#upload_file").text(fname);
+			}
+		});
+	});
+</script>
 </head>
 <body>
 <!-------------------->
@@ -20,7 +42,7 @@
 <!-------------------->
 <div class="content">
 	<h1>게시판-수정하기</h1>
-	<form name="boardUpdateForm" action="boardUpdateCheck.do" method="post">
+	<form name="boardUpdateForm" action="boardUpdateCheck.do" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="bid"  value="${vo.bid}" >
 		<ul>
 			<li>
@@ -33,7 +55,9 @@
 			</li>
 			<li>
 				<label>파일첨부</label>
-				<input type="file" name="file1">
+				<input type="file" name="file1" >
+				<span id="upload_file">${vo.bfile}</span>
+				
 			</li>
 			<li>
 				<button type="button" class="btn_style" id="btnBoardUpdate">수정완료</button>

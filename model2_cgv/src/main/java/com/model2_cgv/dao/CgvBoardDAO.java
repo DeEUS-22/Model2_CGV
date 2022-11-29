@@ -75,7 +75,7 @@ public class CgvBoardDAO extends DBConn{
 	 */
 	public CgvBoardVO select(String bid) {
 		CgvBoardVO vo = new CgvBoardVO();
-		String sql = "select bid, btitle, bcontent, bhits, bdate "
+		String sql = "select bid, btitle, bcontent,bhits, bdate, bfile, bsfile "
 				+ " from cgv_board  where bid=?";
 		
 		try {
@@ -88,6 +88,8 @@ public class CgvBoardDAO extends DBConn{
 				vo.setBcontent(rs.getString(3));
 				vo.setBhits(rs.getInt(4));
 				vo.setBdate(rs.getString(5));
+				vo.setBfile(rs.getString(6));
+				vo.setBsfile(rs.getString(7));
 			}
 			
 			//close();
@@ -126,14 +128,16 @@ public class CgvBoardDAO extends DBConn{
 	 */
 	public int update(CgvBoardVO vo) {
 		int result = 0;
-		String sql = "update cgv_board set btitle=?, bcontent=? "
+		String sql = "update cgv_board set btitle=?, bcontent=?, bfile=?, bsfile=? "
 				+ " where bid=?";
 		
 		try {
 			getPreparedStatement(sql);
 			pstmt.setString(1, vo.getBtitle());
 			pstmt.setString(2, vo.getBcontent());
-			pstmt.setString(3, vo.getBid());
+			pstmt.setString(3, vo.getBfile());
+			pstmt.setString(4, vo.getBsfile());
+			pstmt.setString(5, vo.getBid());
 			
 			result = pstmt.executeUpdate();
 			

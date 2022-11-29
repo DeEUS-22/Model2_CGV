@@ -19,24 +19,6 @@ public class BoardController {
 	/**
 	 * board_list.do
 	 */
-//	@RequestMapping(value="/board_list.do", method=RequestMethod.GET)
-//	public String board_list() {
-//		return "/board/board_list";
-//	}
-	
-//	@RequestMapping(value="/board_list.do", method=RequestMethod.GET)
-//	public ModelAndView board_list() {
-//		ModelAndView mv = new ModelAndView();
-//		CgvBoardDAO dao = new CgvBoardDAO();
-
-//		ArrayList<CgvBoardVO> list = dao.select();
-		
-//		mv.addObject("list", list);
-//		mv.setViewName("/board/board_list");
-
-//		return mv;
-//	}
-	
 	@RequestMapping(value="/board_list.do", method=RequestMethod.GET)
 	public ModelAndView board_list(String rpage) {
 		ModelAndView mv = new ModelAndView();
@@ -132,7 +114,6 @@ public class BoardController {
 	public ModelAndView board_content(String bid) {
 		ModelAndView mv = new ModelAndView();
 		
-		//String bid = request.getParameter("bid");
 		CgvBoardDAO dao = new CgvBoardDAO();
 		CgvBoardVO vo = dao.select(bid);
 		if(vo != null){
@@ -148,10 +129,6 @@ public class BoardController {
 	/**
 	 * board_update.do
 	 */
-//	@RequestMapping(value="/board_update.do", method=RequestMethod.GET)
-//	public String board_update() {
-//		return "/board/board_update";
-//	}
 	@RequestMapping(value="/board_update.do", method=RequestMethod.GET)
 	public ModelAndView board_update(String bid) {
 		ModelAndView mv = new ModelAndView();
@@ -169,11 +146,40 @@ public class BoardController {
 	 * boardUpdateCheck.do
 	 */
 	@RequestMapping(value="/boardUpdateCheck.do", method=RequestMethod.POST)
-	public ModelAndView boardUpdateCheck(CgvBoardVO vo) {
+	public ModelAndView board_update_check(CgvBoardVO vo, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView();
+		
+		//기존 파일이 존재하는 경우 이름을 변수로 저장
+		String old_filename = vo.getBsfile();
+		
+		//수정시 새로운 파일을 선택했는지 확인
+		if(!vo.getFile1().getOriginalFilename().equals("")) { //새로운 파일선택 O
+			
+			UUID uuid = UUID.randomUUID();
+			
+			vo.setBfile(vo.getFile1().getOriginalFilename());
+			vo.setBsfile(uuid+"_"+vo.getFile1().getOriginalFilename());
+		}				
+		
 		CgvBoardDAO dao = new CgvBoardDAO();
 		int result = dao.update(vo);
 		if(result == 1){
+			//새로운 파일을 upload 폴더에 저장
+			if(!vo.getFile1().getOriginalFilename().equals("")) { //새로운 파일선택 O
+				String path = request.getSession().getServletContext().getRealPath("/");
+				path += "\\resources\\upload\\";
+				
+				File file = new File(path+vo.getBsfile());
+				vo.getFile1().transferTo(file);
+			
+				//기존파일이 있는 경우에는 파일 삭제
+				File ofile = new File(path+old_filename);
+				if(ofile.exists()) {
+					ofile.delete();
+				}
+			}
+			
+			
 			mv.setViewName("redirect:/board_list.do");
 		}else{
 			mv.setViewName("errorPage");
@@ -199,12 +205,24 @@ public class BoardController {
 	 * board_delete_check.do : 게시판 삭제 처리
 	 */
 	@RequestMapping(value="/boardDeleteCheck.do", method=RequestMethod.POST)
-	public ModelAndView board_delete_check(String bid) {
+	public ModelAndView board_delete_check(String bid, HttpServletRequest request) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		
 		CgvBoardDAO dao = new CgvBoardDAO();
+		CgvBoardVO vo = dao.select(bid);
 		int result = dao.delete(bid);
+		
 		if(result == 1){
+			//if(!vo.getBsfile().equals("")) {
+			if(vo.getBsfile() != null) {
+				String path=request.getSession().getServletContext().getRealPath("/");
+				path += "\\resources\\upload\\";
+				
+				File old_file = new File(path+vo.getBsfile());
+				if(old_file.exists()) {
+					old_file.delete();
+				}
+			}
 			mv.setViewName("redirect:/board_list.do");
 		}else{
 			mv.setViewName("errorPage");

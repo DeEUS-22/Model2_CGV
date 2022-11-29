@@ -31,7 +31,9 @@
 		</tr>
 		<tr>				
 			<th>내용</th>
-			<td colspan="3">${vo.bcontent }<br><br><br><br></td>
+			<td colspan="3">${vo.bcontent }<br><br>
+				<img src="http://localhost:9000/model2_cgv/resources/upload/${vo.bsfile }" width="50%">
+			<br><br></td>
 		</tr>
 		<tr>
 			<td colspan="4">
