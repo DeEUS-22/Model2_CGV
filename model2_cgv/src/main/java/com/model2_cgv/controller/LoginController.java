@@ -22,8 +22,11 @@ public class LoginController {
 	 * login.do
 	 */
 	@RequestMapping(value="/login.do", method=RequestMethod.GET)
-	public String login() {
-		return "/login/login";
+	public ModelAndView login(String auth) {
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("auth", auth);
+		mv.setViewName("/login/login");
+		return mv;
 	}
 	
 	/**
